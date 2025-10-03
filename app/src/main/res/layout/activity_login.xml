@@ -7,7 +7,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F3F4F6"
-    tools:context=".RegisterActivity">
+    tools:context=".LoginActivity">
+
+    <!-- App Name at Top -->
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amply"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#111827"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Container Card -->
     <androidx.cardview.widget.CardView
@@ -16,10 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="24dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@android:color/white">
@@ -75,8 +89,21 @@
                 android:textColor="@android:color/white"
                 android:backgroundTint="#111827"
                 android:textAllCaps="false"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-medium"/>
+
+            <!-- Switch to Register Button -->
+            <Button
+                android:id="@+id/switchRegisterBtn"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Don't have an account? Register"
+                android:textColor="#111827"
+                android:backgroundTint="@android:color/white"
+                android:textAllCaps="false"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/button_outline_bg"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

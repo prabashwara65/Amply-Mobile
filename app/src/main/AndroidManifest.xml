@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Amply">
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
