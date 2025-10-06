@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Replace with your PC's IP address -->
+        <domain includeSubdomains="true">172.20.10.4</domain>
+    </domain-config>
+</network-security-config>

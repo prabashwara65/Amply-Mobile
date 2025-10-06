@@ -19,17 +19,20 @@ import retrofit2.http.GET
 
 class MainActivity : AppCompatActivity() {
 
-    // 1️⃣ Define your API response model
-    data class Reservation(
-        @SerializedName("id") val id: Int,
-        @SerializedName("name") val name: String,
-        @SerializedName("date") val date: String
+    // 1️⃣ Correct data class for user profile
+    data class UserProfile(
+        @SerializedName("nic") val nic: String,
+        @SerializedName("fullName") val fullName: String,
+        @SerializedName("email") val email: String,
+        @SerializedName("phone") val phone: String,
+        @SerializedName("createdAt") val createdAt: String,
+        @SerializedName("updatedAt") val updatedAt: String
     )
 
     // 2️⃣ Retrofit interface
-    interface ReservationApi {
-        @GET("api/v1/reservations")
-        fun getReservations(): Call<List<Reservation>>
+    interface UserProfileApi {
+        @GET("api/v1/userprofiles")
+        fun getUserProfiles(): Call<List<UserProfile>>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val textView: TextView = findViewById(id.textView) // make sure to set android:id="@+id/textView"
+        val textView: TextView = findViewById(id.textView)
 
         // 3️⃣ Setup Retrofit with logging
         val logging = HttpLoggingInterceptor()
@@ -50,30 +53,30 @@ class MainActivity : AppCompatActivity() {
         val client = OkHttpClient.Builder().addInterceptor(logging).build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://172.20.10.4:5016/") // Android emulator alias to localhost + fixed port
+            .baseUrl("https://conor-truculent-rurally.ngrok-free.dev/") // Ngrok URL
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val api = retrofit.create(ReservationApi::class.java)
+        val api = retrofit.create(UserProfileApi::class.java)
 
         // 4️⃣ Call the API
-        api.getReservations().enqueue(object : Callback<List<Reservation>> {
+        api.getUserProfiles().enqueue(object : Callback<List<UserProfile>> {
             override fun onResponse(
-                call: Call<List<Reservation>>,
-                response: Response<List<Reservation>>
+                call: Call<List<UserProfile>>,
+                response: Response<List<UserProfile>>
             ) {
                 if (response.isSuccessful) {
-                    val reservations = response.body()
-                    textView.text = reservations?.joinToString("\n") {
-                        "${it.id}: ${it.name} - ${it.date}"
-                    } ?: "No reservations found"
+                    val users = response.body()
+                    textView.text = users?.joinToString("\n") {
+                        "${it.nic}: ${it.fullName} - ${it.email} - ${it.phone}"
+                    } ?: "No user profiles found"
                 } else {
                     textView.text = "Error: ${response.code()}"
                 }
             }
 
-            override fun onFailure(call: Call<List<Reservation>>, t: Throwable) {
+            override fun onFailure(call: Call<List<UserProfile>>, t: Throwable) {
                 textView.text = "Failed: ${t.message}"
             }
         })
