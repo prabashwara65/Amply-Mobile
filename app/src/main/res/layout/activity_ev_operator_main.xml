@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#F5F5F5">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvMainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EV Operator Dashboard"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/tvMainSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage EV Charging Operations"
+        android:textSize="16sp"
+        android:textColor="#616161"
+        android:layout_marginBottom="48dp" />
+
+    <!-- Scan QR Code Button -->
+    <Button
+        android:id="@+id/btnScanQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scan QR Code"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1976D2"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:drawablePadding="8dp" />
+
+    <!-- View Booking Details Button -->
+    <Button
+        android:id="@+id/btnViewBooking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Booking Details"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#388E3C"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@android:drawable/ic_menu_info_details"
+        android:drawablePadding="8dp" />
+
+    <!-- Finalize Operation Button -->
+    <Button
+        android:id="@+id/btnFinalizeOperation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finalize Operation"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#D32F2F"
+        android:padding="16dp"
+        android:drawableLeft="@android:drawable/ic_menu_save"
+        android:drawablePadding="8dp" />
+
+</LinearLayout>
+

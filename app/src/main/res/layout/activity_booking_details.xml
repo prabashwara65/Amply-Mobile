@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F5F5F5">
+
+    <!-- Heading -->
+    <TextView
+        android:id="@+id/tvBookingHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Booking Details"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Booking Details Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="20dp"
+        android:elevation="4dp">
+
+        <!-- Booking ID -->
+        <TextView
+            android:id="@+id/tvBookingId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Booking ID: BK-2024-10-001"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Owner Name -->
+        <TextView
+            android:id="@+id/tvOwnerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EV Owner: John Doe"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Booking Date -->
+        <TextView
+            android:id="@+id/tvBookingDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: October 7, 2025"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Booking Time -->
+        <TextView
+            android:id="@+id/tvBookingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time: 2:30 PM - 4:30 PM"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Slot Number -->
+        <TextView
+            android:id="@+id/tvSlotNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Slot Number: A-05"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Charging Duration -->
+        <TextView
+            android:id="@+id/tvChargingDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration: 2 Hours"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Vehicle Model -->
+        <TextView
+            android:id="@+id/tvVehicleModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle: Tesla Model 3"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="12dp" />
+
+    </LinearLayout>
+
+    <!-- Confirm Data Button -->
+    <Button
+        android:id="@+id/btnConfirmData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm Data"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#388E3C"
+        android:padding="16dp"
+        android:layout_marginTop="24dp"
+        android:drawableLeft="@android:drawable/ic_menu_save"
+        android:drawablePadding="8dp" />
+
+    <!-- Proceed to Finalize Button -->
+    <Button
+        android:id="@+id/btnProceedToFinalize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proceed to Finalize Operation"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#D32F2F"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:alpha="0.5"
+        android:drawableLeft="@android:drawable/ic_media_next"
+        android:drawablePadding="8dp" />
+
+</LinearLayout>
+

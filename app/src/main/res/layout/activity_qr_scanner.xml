@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F5F5F5">
+
+    <!-- Heading -->
+    <TextView
+        android:id="@+id/tvQRHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QR Code Scanner"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Real QR Code Scanner Camera View -->
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:id="@+id/barcodeView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Start/Stop Scanning Button -->
+    <Button
+        android:id="@+id/btnStartScanning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Scanning"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1976D2"
+        android:padding="16dp"
+        android:layout_marginBottom="8dp"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:drawablePadding="8dp" />
+
+
+    <!-- Proceed to Booking Details Button -->
+    <Button
+        android:id="@+id/btnProceedToBooking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proceed to Booking Details"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#388E3C"
+        android:padding="16dp"
+        android:layout_marginBottom="24dp"
+        android:enabled="false"
+        android:alpha="0.5"
+        android:drawableLeft="@android:drawable/ic_media_next"
+        android:drawablePadding="8dp" />
+
+    <!-- Scanned Data Display -->
+    <TextView
+        android:id="@+id/tvScannedDataLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scanned Data:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#424242"
+        android:layout_marginBottom="8dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvScannedData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No QR code scanned yet"
+            android:textSize="16sp"
+            android:textColor="#616161"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:lineSpacingExtra="4dp" />
+
+    </ScrollView>
+
+</LinearLayout>
+
