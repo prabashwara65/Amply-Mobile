@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Amply</string>
+    <string name="welcome_message">Welcome back!</string>
+    <string name="nearby_stations">Nearby Charging Stations</string>
+    <string name="my_reservations">My Reservations</string>
+    <string name="tab_pending">Pending</string>
+    <string name="tab_confirmed">Confirmed</string>
 </resources>
