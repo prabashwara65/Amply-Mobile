@@ -7,9 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F3F4F6"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:padding="24dp">
 
-    <!-- App Name at Top -->
+    <!-- App Name -->
     <TextView
         android:id="@+id/appName"
         android:layout_width="wrap_content"
@@ -23,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Container Card -->
+    <!-- Login Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/loginCard"
         android:layout_width="0dp"
@@ -56,25 +57,25 @@
                 android:layout_gravity="center_horizontal"
                 android:paddingBottom="16dp"/>
 
-            <!-- Username Field -->
+            <!-- Email Field -->
             <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Username"
-                android:inputType="text"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:background="@drawable/edittext_bg"
                 android:layout_marginBottom="16dp"/>
 
-            <!-- Password Field -->
+            <!-- Phone Field -->
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Password"
-                android:inputType="textPassword"
+                android:hint="Phone"
+                android:inputType="phone"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:background="@drawable/edittext_bg"
@@ -92,7 +93,7 @@
                 android:layout_marginBottom="16dp"
                 android:fontFamily="sans-serif-medium"/>
 
-            <!-- Switch to Register Button -->
+            <!-- Register Button -->
             <Button
                 android:id="@+id/switchRegisterBtn"
                 android:layout_width="match_parent"

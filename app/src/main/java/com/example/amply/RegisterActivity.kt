@@ -27,19 +27,19 @@ class RegisterActivity : AppCompatActivity() {
 
         dbHelper = DatabaseHelper(this)
 
-        // Match IDs from your XML
-        val etUsername = findViewById<EditText>(R.id.username)
+        // Get references to UI elements
+        val etEmail = findViewById<EditText>(R.id.username)        // Use "username" as email
         val etPassword = findViewById<EditText>(R.id.password)
         val etConfirmPassword = findViewById<EditText>(R.id.confirmPassword)
         val btnRegister = findViewById<Button>(R.id.registerBtn)
 
         btnRegister.setOnClickListener {
-            val username = etUsername.text.toString().trim()
+            val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
             val confirmPassword = etConfirmPassword.text.toString().trim()
 
-            // Validate fields
-            if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            // Validate inputs
+            if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -49,17 +49,17 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Check if user exists
-            if (dbHelper.checkUser(username)) {
-                Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT).show()
+            // Check if email already exists in SQLite
+            if (dbHelper.checkUser(email)) {
+                Toast.makeText(this, "Email already registered", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Add user
-            val success = dbHelper.addUser(username, password)
+            // Add new user to SQLite
+            val success = dbHelper.addUser(email, password)
             if (success) {
                 Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-                finish() // Close activity after successful registration
+                finish() // Close activity
             } else {
                 Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()
             }
