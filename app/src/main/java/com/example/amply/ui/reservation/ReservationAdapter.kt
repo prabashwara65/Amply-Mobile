@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
 
-class ReservationAdapter(private var reservations: MutableList<ReservationListActivity.Reservation>) :
+class ReservationAdapter(private var reservations: MutableList<ReservationListActivity.ReservationExtended>) :
     RecyclerView.Adapter<ReservationAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,7 +33,7 @@ class ReservationAdapter(private var reservations: MutableList<ReservationListAc
         holder.status.text = reservation.status
     }
 
-    fun updateData(newData: List<ReservationListActivity.Reservation>) {
+    fun updateData(newData: List<ReservationListActivity.ReservationExtended>) {
         reservations.clear()
         reservations.addAll(newData)
         notifyDataSetChanged()
