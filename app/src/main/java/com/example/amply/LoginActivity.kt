@@ -259,6 +259,8 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
 
+
+
             } catch (e: SocketTimeoutException) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@LoginActivity, "Server timeout. Try again later.", Toast.LENGTH_SHORT).show()
