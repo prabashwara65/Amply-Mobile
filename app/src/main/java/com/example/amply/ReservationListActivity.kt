@@ -1,4 +1,4 @@
-package com.example.amply.UI
+package com.example.amply
 
 class ReservationListActivity {
 }
