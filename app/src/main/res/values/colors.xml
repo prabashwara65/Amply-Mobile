@@ -10,4 +10,26 @@
     <color name="zxing_viewfinder_mask">#60000000</color>
     <color name="gray">#808080</color>
 
+    <!-- Gray Shades -->
+    <color name="gray_50">#F9FAFB</color>
+    <color name="gray_100">#F3F4F6</color>
+    <color name="gray_200">#E5E7EB</color>
+    <color name="gray_300">#D1D5DB</color>
+    <color name="gray_400">#9CA3AF</color>
+    <color name="gray_500">#6B7280</color>
+    <color name="gray_600">#4B5563</color>
+    <color name="gray_700">#374151</color>
+    <color name="gray_800">#1F2937</color>
+    <color name="gray_900">#111827</color>
+
+    <!-- Status Colors -->
+    <color name="status_pending">#F59E0B</color>
+    <color name="status_confirmed">#10B981</color>
+    <color name="status_cancelled">#EF4444</color>
+
+    <!-- Background Colors -->
+    <color name="bg_pending">#FEF3C7</color>
+    <color name="bg_confirmed">#D1FAE5</color>
+    <color name="bg_cancelled">#FEE2E2</color>
+
 </resources>
