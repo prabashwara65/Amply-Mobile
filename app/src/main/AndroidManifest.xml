@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Amply">
 
@@ -30,9 +30,9 @@
         <activity android:name=".ui.auth.RegisterActivity" android:exported="false" />
 
         <!-- Dashboard Activities -->
-        <activity android:name=".ui.dashboard.BackOfficeDashboard" android:exported="false" />
-        <activity android:name=".ui.dashboard.EvOperatorDashboard" android:exported="false" />
-        <activity android:name=".ui.dashboard.EvOwnerDashboard" android:exported="false" />
+
+        <activity android:name=".ui.dashboard.EvOperatorDashboard" android:exported="true" />
+        <activity android:name=".ui.dashboard.EvOwnerDashboard" android:exported="true" />
 
         <!-- Reservation Activities -->
         <activity android:name=".ui.reservation.ReservationListActivity" android:exported="true" />

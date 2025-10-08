@@ -139,15 +139,15 @@ class FinalizeOperationActivity : AppCompatActivity() {
      * @param reservation The reservation data from the API
      */
     private fun displayBookingSummary(reservation: Reservation) {
-        tvSummaryBookingId.text = "Booking ID: ${reservation.id ?: "N/A"}"
-        tvSummaryOwner.text = "Customer: ${reservation.fullName}"
-        tvSummaryDate.text = "Date: ${reservation.reservationDate}"
-        tvSummaryTime.text = "Time: ${reservation.startTime} - ${reservation.endTime}"
-        tvSummarySlot.text = "Slot: ${reservation.slotNo}"
-        tvSummaryDuration.text = "Duration: ${calculateDuration(reservation.startTime, reservation.endTime)}"
-        tvSummaryVehicle.text = "Vehicle: ${reservation.vehicleNumber}"
-        tvSummaryChargeAmount.text = "Energy Delivered: 45.5 kWh" // Placeholder - would come from charging data
-        tvSummaryTotalCost.text = "Total Cost: $22.75" // Placeholder - would be calculated
+        tvSummaryBookingId.text = "${reservation.id ?: "N/A"}"
+        tvSummaryOwner.text = "${reservation.fullName}"
+        tvSummaryDate.text = "${reservation.reservationDate}"
+        tvSummaryTime.text = "${reservation.startTime} - ${reservation.endTime}"
+        tvSummarySlot.text = "${reservation.slotNo}"
+        tvSummaryDuration.text = "${calculateDuration(reservation.startTime, reservation.endTime)}"
+        tvSummaryVehicle.text = "${reservation.vehicleNumber}"
+        tvSummaryChargeAmount.text = "45.5 kWh" // Placeholder - would come from charging data
+        tvSummaryTotalCost.text = "$22.75" // Placeholder - would be calculated
     }
 
     /**
@@ -168,15 +168,15 @@ class FinalizeOperationActivity : AppCompatActivity() {
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         // Set default values on error
-        tvSummaryBookingId.text = "Booking ID: Error loading data"
-        tvSummaryOwner.text = "Customer: Error loading data"
-        tvSummaryDate.text = "Date: Error loading data"
-        tvSummaryTime.text = "Time: Error loading data"
-        tvSummarySlot.text = "Slot: Error loading data"
-        tvSummaryDuration.text = "Duration: Error loading data"
-        tvSummaryVehicle.text = "Vehicle: Error loading data"
-        tvSummaryChargeAmount.text = "Energy Delivered: Error loading data"
-        tvSummaryTotalCost.text = "Total Cost: Error loading data"
+        tvSummaryBookingId.text = "Error loading data"
+        tvSummaryOwner.text = "Error loading data"
+        tvSummaryDate.text = "Error loading data"
+        tvSummaryTime.text = "Error loading data"
+        tvSummarySlot.text = "Error loading data"
+        tvSummaryDuration.text = "Error loading data"
+        tvSummaryVehicle.text = "Error loading data"
+        tvSummaryChargeAmount.text = "Error loading data"
+        tvSummaryTotalCost.text = "Error loading data"
     }
 
     /**

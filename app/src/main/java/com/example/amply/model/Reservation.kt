@@ -22,3 +22,4 @@ data class Reservation(
     @SerializedName("qrCode") val qrCode: String?
 )
 
+

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
 import com.example.amply.data.UserProfileDatabaseHelper
 import com.example.amply.ui.reservation.ReservationViewAdapter
+import com.example.amply.model.Reservation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.mapbox.mapboxsdk.Mapbox
@@ -101,7 +102,7 @@ class EvOwnerDashboard : AppCompatActivity() {
         val dbReservations = dbHelper.getReservationsByStatus(currentUserId, status)
 
         val adapterReservations = dbReservations.map { dbRes ->
-            com.example.amply.ui.reservation.ReservationListActivity.Reservation(
+            com.example.amply.ui.reservation.ReservationListActivity.ReservationExtended(
                 id = dbRes.id.toString(),
                 reservationCode = "N/A",          // No reservationCode in DB
                 fullName = "Unknown",             // No fullName in DB

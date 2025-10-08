@@ -1,134 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#F5F5F5">
+    android:background="#FFFFFF">
 
-    <!-- Heading -->
-    <TextView
-        android:id="@+id/tvBookingHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Booking Details"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#1976D2"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp" />
-
-    <!-- Booking Details Card -->
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_height="80dp"
         android:background="#FFFFFF"
-        android:padding="20dp"
-        android:elevation="4dp">
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
 
-        <!-- Booking ID -->
         <TextView
-            android:id="@+id/tvBookingId"
+            android:id="@+id/tvBookingHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Booking ID: BK-2024-10-001"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Owner Name -->
-        <TextView
-            android:id="@+id/tvOwnerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EV Owner: John Doe"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Booking Date -->
-        <TextView
-            android:id="@+id/tvBookingDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date: October 7, 2025"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Booking Time -->
-        <TextView
-            android:id="@+id/tvBookingTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Time: 2:30 PM - 4:30 PM"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Slot Number -->
-        <TextView
-            android:id="@+id/tvSlotNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Slot Number: A-05"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Charging Duration -->
-        <TextView
-            android:id="@+id/tvChargingDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Duration: 2 Hours"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Vehicle Model -->
-        <TextView
-            android:id="@+id/tvVehicleModel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vehicle: Tesla Model 3"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:layout_marginBottom="12dp" />
+            android:text="Booking Details"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
 
     </LinearLayout>
 
-    <!-- Confirm Data Button -->
-    <Button
-        android:id="@+id/btnConfirmData"
+    <!-- Booking Details Content -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirm Data"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#388E3C"
-        android:padding="16dp"
-        android:layout_marginTop="24dp"
-        android:drawableLeft="@android:drawable/ic_menu_save"
-        android:drawablePadding="8dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="24dp">
 
-    <!-- Proceed to Finalize Button -->
-    <Button
-        android:id="@+id/btnProceedToFinalize"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Booking ID -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Booking ID:"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/tvBookingId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="BK-2024-10-001"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Customer Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Customer:"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/tvOwnerName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="John Doe"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/tvBookingDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="October 7, 2025"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Time Slot -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Time:"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/tvBookingTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2:30 PM - 4:30 PM"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Slot Number -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Slot:"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/tvSlotNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="A-05"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Duration -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Duration:"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/tvChargingDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2 Hours"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Vehicle -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle:"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/tvVehicleModel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tesla Model 3"
+                    android:textSize="16sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Action Buttons -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Proceed to Finalize Operation"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#D32F2F"
-        android:padding="16dp"
-        android:layout_marginTop="16dp"
-        android:enabled="false"
-        android:alpha="0.5"
-        android:drawableLeft="@android:drawable/ic_media_next"
-        android:drawablePadding="8dp" />
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Confirm Data Button -->
+        <Button
+            android:id="@+id/btnConfirmData"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+
+            android:backgroundTint="#070707"
+            android:text="Confirm Data"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Proceed to Finalize Button -->
+        <Button
+            android:id="@+id/btnProceedToFinalize"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:alpha="0.5"
+
+            android:backgroundTint="#070707"
+            android:enabled="false"
+            android:text="Proceed to Finalize"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>
-

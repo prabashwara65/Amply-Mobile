@@ -137,13 +137,13 @@ class BookingDetailsActivity : AppCompatActivity() {
      * @param reservation The reservation data from the API
      */
     private fun displayBookingData(reservation: Reservation) {
-        tvBookingId.text = "Booking ID: ${reservation.id ?: "N/A"}"
-        tvOwnerName.text = "EV Owner: ${reservation.fullName}"
-        tvBookingDate.text = "Date: ${reservation.reservationDate}"
-        tvBookingTime.text = "Time: ${reservation.startTime} - ${reservation.endTime}"
-        tvSlotNumber.text = "Slot Number: ${reservation.slotNo}"
-        tvChargingDuration.text = "Duration: ${calculateDuration(reservation.startTime, reservation.endTime)}"
-        tvVehicleModel.text = "Vehicle: ${reservation.vehicleNumber}"
+        tvBookingId.text = "${reservation.id ?: "N/A"}"
+        tvOwnerName.text = "${reservation.fullName}"
+        tvBookingDate.text = "${reservation.reservationDate}"
+        tvBookingTime.text = "${reservation.startTime} - ${reservation.endTime}"
+        tvSlotNumber.text = "${reservation.slotNo}"
+        tvChargingDuration.text = "${calculateDuration(reservation.startTime, reservation.endTime)}"
+        tvVehicleModel.text = "${reservation.vehicleNumber}"
     }
 
     /**
@@ -164,13 +164,13 @@ class BookingDetailsActivity : AppCompatActivity() {
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         // Set default values on error
-        tvBookingId.text = "Booking ID: Error loading data"
-        tvOwnerName.text = "EV Owner: Error loading data"
-        tvBookingDate.text = "Date: Error loading data"
-        tvBookingTime.text = "Time: Error loading data"
-        tvSlotNumber.text = "Slot Number: Error loading data"
-        tvChargingDuration.text = "Duration: Error loading data"
-        tvVehicleModel.text = "Vehicle: Error loading data"
+        tvBookingId.text = "Error loading data"
+        tvOwnerName.text = "Error loading data"
+        tvBookingDate.text = "Error loading data"
+        tvBookingTime.text = "Error loading data"
+        tvSlotNumber.text = "Error loading data"
+        tvChargingDuration.text = "Error loading data"
+        tvVehicleModel.text = "Error loading data"
     }
 
     /**
