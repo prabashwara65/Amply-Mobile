@@ -235,6 +235,8 @@ class LoginActivity : AppCompatActivity() {
                                 it.password == password
                     }
 
+
+
                     if (matchedUser != null) {
                         // Save to SQLite if not exists
                         if (!dbHelper.checkUser(email)) {
