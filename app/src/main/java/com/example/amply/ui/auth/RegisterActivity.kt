@@ -1,4 +1,4 @@
-package com.example.amply
+package com.example.amply.ui.auth
 
 import android.os.Bundle
 import android.widget.Button
@@ -8,10 +8,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.amply.data.AuthDatabaseHelper
+import com.example.amply.R
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var dbHelper: DatabaseHelper
+    private lateinit var dbHelper: AuthDatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,7 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
 
-        dbHelper = DatabaseHelper(this)
+        dbHelper = AuthDatabaseHelper(this)
 
         // Get references to UI elements
         val etEmail = findViewById<EditText>(R.id.username)        // Use "username" as email

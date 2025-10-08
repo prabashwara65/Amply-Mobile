@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,23 +16,26 @@
 
         <!-- Launcher Activity -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Main Activity (Internal) -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+        <!-- Other Activities -->
+        <activity android:name=".MainActivity" android:exported="false" />
+        <activity android:name=".ui.auth.RegisterActivity" android:exported="false" />
 
-        <!-- Optional Register Activity -->
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
+        <!-- Dashboard Activities -->
+        <activity android:name=".ui.dashboard.BackOfficeDashboard" android:exported="false" />
+        <activity android:name=".ui.dashboard.EvOperatorDashboard" android:exported="false" />
+        <activity android:name=".ui.dashboard.EvOwnerDashboard" android:exported="false" />
+
+        <!-- Reservation Activities -->
+        <activity android:name=".ui.reservation.ReservationListActivity" android:exported="true" />
 
         <!-- EV Operator Module Activities -->
         <activity

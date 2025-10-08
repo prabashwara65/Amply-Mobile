@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:id="@+id/createReservation"
+    android:padding="16dp">
+
+    <!-- Scrollable container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <!-- White container for the form -->
+        <LinearLayout
+            android:id="@+id/formContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/form_container_bg"
+            android:layout_margin="5dp"
+            android:padding="20dp"
+            android:elevation="6dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="New Reservation"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- All your input fields go here -->
+            <!-- NIC Number -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="NIC Number"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvNIC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter nic number"
+                android:textColor="@color/black"
+                android:padding="10dp"
+                android:drawableStart="@drawable/outline_article_person_24"
+                android:drawablePadding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"/>
+
+            <!-- Full Name -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Full Name"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter full name"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_account_circle_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"/>
+
+            <!-- Vehicle Number -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Vehicle Number"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvVehicleNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter vehicle number"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_car_gear_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"/>
+
+            <!-- Station Name -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Station Name"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvStationName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter station name"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_add_home_work_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"/>
+
+            <!-- Station ID -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Station ID"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvStationId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter station id"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_add_location_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"/>
+
+            <!-- Reservation Date -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Reservation Date"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvReservationDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter reservation date"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_calendar_month_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"
+                android:focusable="false"
+                android:clickable="true"/>
+
+            <!-- Slot Number -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Slot Number"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvSlotNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter slot number"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_bookmark_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"
+                android:inputType="number"/>
+
+            <!-- Start Time -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Start Time"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvStartTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter start time"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_av_timer_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp" />
+
+            <!-- End Time -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="End Time"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/tvEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="enter end time"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/outline_av_timer_24"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSubmitReservation"
+                android:text="Submit Reservation"
+                android:backgroundTint="@color/black"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
