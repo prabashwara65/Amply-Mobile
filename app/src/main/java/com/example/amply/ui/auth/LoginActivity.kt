@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.amply.ui.dashboard.BackOfficeDashboard
 import com.example.amply.data.AuthDatabaseHelper
 import com.example.amply.ui.dashboard.EvOperatorDashboard
 import com.example.amply.ui.dashboard.EvOwnerDashboard
@@ -171,7 +170,6 @@ class LoginActivity : AppCompatActivity() {
     // -------------------- Navigate Based on Role --------------------
     private fun navigateBasedOnRole(role: String?) {
         when (role) {
-            "Backofficer" -> startActivity(Intent(this, BackOfficeDashboard::class.java))
             "EvOperator", "ElectiveOperator" -> startActivity(
                 Intent(
                     this,
