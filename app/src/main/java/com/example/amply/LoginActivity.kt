@@ -97,8 +97,12 @@ class LoginActivity : AppCompatActivity() {
                             dbHelper.addUser(email, phone)
                         }
                         Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+//                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        // ✅ Navigate to ReservationListActivity
+                        val intent = Intent(this@LoginActivity, ReservationListActivity::class.java)
+                        startActivity(intent)
                         finish()
+
                     } else {
                         Toast.makeText(this@LoginActivity, "Invalid email or phone", Toast.LENGTH_SHORT).show()
                     }
