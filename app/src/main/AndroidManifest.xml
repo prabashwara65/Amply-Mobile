@@ -13,7 +13,7 @@
 
         <!-- Launcher Activity -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,12 +24,15 @@
 
         <!-- Other Activities -->
         <activity android:name=".MainActivity" android:exported="false" />
-        <activity android:name=".RegisterActivity" android:exported="false" />
+        <activity android:name=".ui.auth.RegisterActivity" android:exported="false" />
 
         <!-- Dashboard Activities -->
-        <activity android:name=".BackOfficeDashboard" android:exported="false" />
-        <activity android:name=".EvOperatorDashboard" android:exported="false" />
-        <activity android:name=".EvOwnerDashboard" android:exported="false" />
+        <activity android:name=".ui.dashboard.BackOfficeDashboard" android:exported="false" />
+        <activity android:name=".ui.dashboard.EvOperatorDashboard" android:exported="false" />
+        <activity android:name=".ui.dashboard.EvOwnerDashboard" android:exported="false" />
+
+        <!-- Reservation Activities -->
+        <activity android:name=".ui.reservation.ReservationListActivity" android:exported="true" />
 
     </application>
 
