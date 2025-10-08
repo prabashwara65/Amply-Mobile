@@ -170,15 +170,12 @@ class LoginActivity : AppCompatActivity() {
     // -------------------- Navigate Based on Role --------------------
     private fun navigateBasedOnRole(role: String?) {
         when (role) {
-            "EvOperator", "ElectiveOperator" -> startActivity(
-                Intent(
-                    this,
-                    EvOperatorDashboard::class.java
-                )
-            )
+            "EvOperator", "ElectiveOperator" -> startActivity(Intent(this, EvOperatorDashboard::class.java))
             "EvOwner" -> startActivity(Intent(this, EvOwnerDashboard::class.java))
-            else -> Toast.makeText(this, "Unknown role", Toast.LENGTH_SHORT).show()
+            null, "" -> Toast.makeText(this, "Role is missing. Please contact admin.", Toast.LENGTH_SHORT).show()
+            else -> Toast.makeText(this, "Unknown role: $role", Toast.LENGTH_SHORT).show()
         }
         finish()
     }
+
 }

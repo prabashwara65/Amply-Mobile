@@ -9,7 +9,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
-import com.example.amply.ui.reservation.ReservationAdapter
 import com.example.amply.data.ReservationDatabaseHelper
 import com.google.gson.annotations.SerializedName
 import okhttp3.OkHttpClient
@@ -24,7 +23,7 @@ import retrofit2.http.GET
 class ReservationListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ReservationAdapter
+    private lateinit var adapter: ReservationViewAdapter
     private lateinit var dbHelper: ReservationDatabaseHelper
 
     // Retrofit Data Model
@@ -66,7 +65,11 @@ class ReservationListActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerViewReservations)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = ReservationAdapter(mutableListOf())
+
+        // Initialize adapter with empty list and click listener
+        adapter = ReservationViewAdapter(mutableListOf()) { reservation ->
+            Toast.makeText(this, "Clicked: ${reservation.fullName}", Toast.LENGTH_SHORT).show()
+        }
         recyclerView.adapter = adapter
 
         dbHelper = ReservationDatabaseHelper(this)
