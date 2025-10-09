@@ -7,45 +7,44 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
 
-/**
- * Adapter for displaying reservations in RecyclerView
- */
 class ReservationViewAdapter(
-    private val reservations: MutableList<ReservationListActivity.Reservation>,
-    private val onItemClick: (ReservationListActivity.Reservation) -> Unit
-) : RecyclerView.Adapter<ReservationViewAdapter.ReservationViewHolder>() {
+    private var reservations: MutableList<ReservationListActivity.ReservationExtended>,
+    private val onItemClick: (ReservationListActivity.ReservationExtended) -> Unit
+) : RecyclerView.Adapter<ReservationViewAdapter.ViewHolder>() {
 
-    class ReservationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val reservationId: TextView = itemView.findViewById(R.id.tvReservationId)
         val stationName: TextView = itemView.findViewById(R.id.stationName)
         val reservationDate: TextView = itemView.findViewById(R.id.reservationDate)
         val reservationTime: TextView = itemView.findViewById(R.id.reservationTime)
         val statusBadge: TextView = itemView.findViewById(R.id.statusBadge)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservationViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_reservation, parent, false)
-        return ReservationViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ReservationViewHolder, position: Int) {
+    override fun getItemCount() = reservations.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reservation = reservations[position]
+        holder.reservationId.text = "ID: ${reservation.reservationCode}"
         holder.stationName.text = reservation.stationName
         holder.reservationDate.text = reservation.reservationDate
-        holder.reservationTime.text = "${reservation.startTime} - ${reservation.endTime}"
+        holder.reservationTime.text = reservation.startTime
         holder.statusBadge.text = reservation.status.uppercase()
-
+        
+        // Set click listener
         holder.itemView.setOnClickListener {
             onItemClick(reservation)
         }
     }
 
-    override fun getItemCount(): Int = reservations.size
-
-    // Method to update adapter data
-    fun updateData(newReservations: List<ReservationListActivity.Reservation>) {
+    fun updateData(newData: List<ReservationListActivity.ReservationExtended>) {
         reservations.clear()
-        reservations.addAll(newReservations)
+        reservations.addAll(newData)
         notifyDataSetChanged()
     }
 }

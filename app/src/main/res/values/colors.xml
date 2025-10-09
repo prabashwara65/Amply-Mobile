@@ -2,6 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- QR Scanner Colors -->
+    <color name="zxing_possible_result_points">#FF00FF00</color>
+    <color name="zxing_result_view">#FF000000</color>
+    <color name="zxing_viewfinder_laser">#FF00FF00</color>
+    <color name="zxing_viewfinder_mask">#60000000</color>
     <color name="gray">#808080</color>
 
     <!-- Gray Shades -->

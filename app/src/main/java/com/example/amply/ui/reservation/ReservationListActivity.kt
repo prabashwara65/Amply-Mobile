@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
 import com.example.amply.data.ReservationDatabaseHelper
+import com.example.amply.model.Reservation
 import com.google.gson.annotations.SerializedName
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,8 +27,8 @@ class ReservationListActivity : AppCompatActivity() {
     private lateinit var adapter: ReservationViewAdapter
     private lateinit var dbHelper: ReservationDatabaseHelper
 
-    // Retrofit Data Model
-    data class Reservation(
+    // Extended Reservation Model for this activity (includes bookingDate, createdAt, updatedAt)
+    data class ReservationExtended(
         @SerializedName("id") val id: String,
         @SerializedName("reservationCode") val reservationCode: String,
         @SerializedName("fullName") val fullName: String,
@@ -49,7 +50,7 @@ class ReservationListActivity : AppCompatActivity() {
     // Retrofit API Interface
     interface ReservationApi {
         @GET("api/v1/reservations")
-        fun getReservations(): Call<List<Reservation>>
+        fun getReservations(): Call<List<ReservationExtended>>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,8 +90,8 @@ class ReservationListActivity : AppCompatActivity() {
 
         val api = retrofit.create(ReservationApi::class.java)
 
-        api.getReservations().enqueue(object : Callback<List<Reservation>> {
-            override fun onResponse(call: Call<List<Reservation>>, response: Response<List<Reservation>>) {
+        api.getReservations().enqueue(object : Callback<List<ReservationExtended>> {
+            override fun onResponse(call: Call<List<ReservationExtended>>, response: Response<List<ReservationExtended>>) {
                 if (response.isSuccessful) {
                     val reservations = response.body() ?: emptyList()
                     if (reservations.isNotEmpty()) {
@@ -106,13 +107,13 @@ class ReservationListActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<List<Reservation>>, t: Throwable) {
+            override fun onFailure(call: Call<List<ReservationExtended>>, t: Throwable) {
                 Toast.makeText(this@ReservationListActivity, "Failed: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    private fun syncToLocalDatabase(reservations: List<Reservation>) {
+    private fun syncToLocalDatabase(reservations: List<ReservationExtended>) {
         dbHelper.clearReservations()
         for (r in reservations) {
             dbHelper.addReservation(
