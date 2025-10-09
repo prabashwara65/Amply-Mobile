@@ -9,9 +9,12 @@ import com.example.amply.R
 import com.example.amply.model.Reservation
 import com.example.amply.model.ReservationStatusUpdate
 import com.example.amply.network.ApiClient
+import com.example.amply.data.ReservationDatabaseHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * FinalizeOperationActivity
@@ -34,6 +37,9 @@ class FinalizeOperationActivity : AppCompatActivity() {
     
     // Data
     private var currentReservation: Reservation? = null
+    
+    // Database Helper
+    private lateinit var dbHelper: ReservationDatabaseHelper
 
     /**
      * onCreate method - initializes the activity and sets up UI components
@@ -42,6 +48,9 @@ class FinalizeOperationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finalize_operation)
+
+        // Initialize database helper
+        dbHelper = ReservationDatabaseHelper(this)
 
         // Initialize UI components
         initializeViews()
@@ -223,6 +232,9 @@ class FinalizeOperationActivity : AppCompatActivity() {
             apiService.updateReservation(reservationId, updatedReservation).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
+                        // Save to local database
+                        saveToLocalDatabase(updatedReservation)
+                        
                         // Success - show confirmation
                         Toast.makeText(
                             this@FinalizeOperationActivity,
@@ -230,27 +242,39 @@ class FinalizeOperationActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                         
-                        // Optional: Navigate back to main screen
-                        // finish()
+                        // Navigate back or finish
+                        finish()
                     } else {
-                        // Error - show message and re-enable button
+                        // API error - but still save locally
+                        saveToLocalDatabase(updatedReservation)
+                        
+                        // Show error but confirm local save
+                        val errorBody = response.errorBody()?.string()
                         Toast.makeText(
                             this@FinalizeOperationActivity,
-                            "Failed to finalize operation: ${response.code()}",
+                            "Saved locally. API error: ${response.code()}",
                             Toast.LENGTH_LONG
                         ).show()
-                        resetFinalizeButton()
+                        
+                        println("API Error ${response.code()}: $errorBody")
+                        
+                        // Still finish since we saved locally
+                        finish()
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    // Network error - show message and re-enable button
+                    // Network error - but still save to local database
+                    saveToLocalDatabase(updatedReservation)
+                    
                     Toast.makeText(
                         this@FinalizeOperationActivity,
-                        "Network error: ${t.message}",
+                        "Saved locally. Will sync when online.",
                         Toast.LENGTH_LONG
                     ).show()
-                    resetFinalizeButton()
+                    
+                    // Finish the activity
+                    finish()
                 }
             })
         } else {
@@ -265,6 +289,63 @@ class FinalizeOperationActivity : AppCompatActivity() {
     private fun resetFinalizeButton() {
         btnFinalizeOperation.isEnabled = true
         btnFinalizeOperation.text = "Finalize Operation"
+    }
+
+    /**
+     * Save completed reservation to local database
+     * @param reservation The reservation with "Completed" status
+     */
+    private fun saveToLocalDatabase(reservation: Reservation) {
+        try {
+            val currentDateTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+            
+            val saved = dbHelper.addReservation(
+                reservationCode = reservation.reservationCode,
+                fullName = reservation.fullName,
+                nic = reservation.nic ?: "",
+                vehicleNumber = reservation.vehicleNumber,
+                stationId = reservation.stationId,
+                stationName = reservation.stationName,
+                slotNo = reservation.slotNo,
+                bookingDate = reservation.reservationDate,
+                reservationDate = reservation.reservationDate,
+                startTime = reservation.startTime,
+                endTime = reservation.endTime,
+                status = "Completed",
+                qrCode = reservation.qrCode,
+                createdAt = currentDateTime,
+                updatedAt = currentDateTime
+            )
+            
+            if (saved) {
+                println("✅ Reservation saved to local database: ${reservation.reservationCode}")
+            } else {
+                // Try updating if insert failed (record might already exist)
+                val updated = dbHelper.updateReservation(
+                    reservationCode = reservation.reservationCode,
+                    fullName = reservation.fullName,
+                    nic = reservation.nic ?: "",
+                    vehicleNumber = reservation.vehicleNumber,
+                    stationId = reservation.stationId,
+                    stationName = reservation.stationName,
+                    slotNo = reservation.slotNo,
+                    reservationDate = reservation.reservationDate,
+                    startTime = reservation.startTime,
+                    endTime = reservation.endTime,
+                    status = "Completed",
+                    updatedAt = currentDateTime
+                )
+                
+                if (updated) {
+                    println("✅ Reservation updated in local database: ${reservation.reservationCode}")
+                } else {
+                    println("❌ Failed to save reservation to local database")
+                }
+            }
+        } catch (e: Exception) {
+            println("❌ Error saving to database: ${e.message}")
+            e.printStackTrace()
+        }
     }
 }
 
