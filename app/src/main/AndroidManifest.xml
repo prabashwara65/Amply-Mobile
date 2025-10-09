@@ -27,7 +27,7 @@
 
         <!-- Other Activities -->
         <activity android:name=".MainActivity" android:exported="false" />
-        <activity android:name=".ui.auth.RegisterActivity" android:exported="false" />
+        <activity android:name=".ui.auth.RegisterActivity" android:exported="true" />
 
         <!-- Dashboard Activities -->
 

@@ -1,47 +1,48 @@
 package com.example.amply.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.amply.data.AuthDatabaseHelper
 import com.example.amply.R
+import com.example.amply.network.RetrofitClient
+import com.example.amply.network.UserProfileApi
+import com.example.amply.model.OwnerProfile
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import com.google.gson.JsonParser
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var dbHelper: AuthDatabaseHelper
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_register)
 
-        // Handle system bars padding
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        dbHelper = AuthDatabaseHelper(this)
-
-        // Get references to UI elements
-        val etEmail = findViewById<EditText>(R.id.username)        // Use "username" as email
+        val etEmail = findViewById<EditText>(R.id.username)
         val etPassword = findViewById<EditText>(R.id.password)
         val etConfirmPassword = findViewById<EditText>(R.id.confirmPassword)
+        val etFullName = findViewById<EditText>(R.id.fullName)
+        val etNic = findViewById<EditText>(R.id.nic)
+        val etPhone = findViewById<EditText>(R.id.phone)
         val btnRegister = findViewById<Button>(R.id.registerBtn)
+
+        val userProfileApi = RetrofitClient.instance.create(UserProfileApi::class.java)
 
         btnRegister.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
             val confirmPassword = etConfirmPassword.text.toString().trim()
+            val fullName = etFullName.text.toString().trim()
+            val nic = etNic.text.toString().trim()
+            val phone = etPhone.text.toString().trim()
 
-            // Validate inputs
-            if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            // Client-side validation
+            if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
+                fullName.isEmpty() || nic.isEmpty() || phone.isEmpty()
+            ) {
                 Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -51,20 +52,48 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Check if email already exists in SQLite
-            if (dbHelper.checkUser(email)) {
-                Toast.makeText(this, "Email already registered", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val user = OwnerProfile(
+                nic = nic,
+                fullName = fullName,
+                email = email,
+                password = password,
+                phone = phone
+            )
 
-            // Add new user to SQLite
-            val success = dbHelper.addUser(email, password)
-            if (success) {
-                Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-                finish() // Close activity
-            } else {
-                Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show()
-            }
+            // API call
+            userProfileApi.createUserProfile(user).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@RegisterActivity, "Registration successful", Toast.LENGTH_SHORT).show()
+
+                        // Navigate to LoginActivity
+                        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish() // Finish RegisterActivity so user can't go back
+                    } else {
+                        // Parse error body for validation messages
+                        val errorBody = response.errorBody()?.string()
+                        var errorMessage = "Unknown error"
+
+                        errorBody?.let {
+                            try {
+                                val json = JsonParser.parseString(it).asJsonObject
+                                if (json.has("message")) {
+                                    errorMessage = json.get("message").asString
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+
+                        Toast.makeText(this@RegisterActivity, "Validation Error: $errorMessage", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(this@RegisterActivity, "Network error: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
         }
     }
 }

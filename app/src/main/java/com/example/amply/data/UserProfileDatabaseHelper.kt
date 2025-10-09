@@ -5,8 +5,11 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.amply.ui.reservation.ChargingStation
-import com.example.amply.ui.reservation.Reservation
+import com.example.amply.model.ChargingStation
+import com.example.amply.model.Reservation
+
+//import com.example.amply.ui.reservation.ChargingStation
+//import com.example.amply.ui.reservation.Reservation
 
 class UserProfileDatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -245,21 +248,7 @@ class UserProfileDatabaseHelper(context: Context) :
             arrayOf(userId.toString(), status)
         )
 
-        if (cursor.moveToFirst()) {
-            do {
-                val reservation = Reservation(
-                    id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RES_ID)),
-                    userId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RES_USER_ID)),
-                    stationId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RES_STATION_ID)),
-                    stationName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_STATION_NAME)),
-                    reservationDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_DATE)),
-                    reservationTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_TIME)),
-                    status = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_STATUS)),
-                    createdAt = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_CREATED_AT))
-                )
-                reservations.add(reservation)
-            } while (cursor.moveToNext())
-        }
+
         cursor.close()
         db.close()
         return reservations

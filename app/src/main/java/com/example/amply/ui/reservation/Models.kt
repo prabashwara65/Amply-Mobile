@@ -10,7 +10,9 @@ data class Reservation(
     val stationId: Int,
     val stationName: String,
     val reservationDate: String,
-    val reservationTime: String,
+    val reservationTime: String, // Keep for backward compatibility
+    val startTime: String,       // Add this
+    val endTime: String,         // Add this
     val status: String,
     val createdAt: String
 )

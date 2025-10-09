@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Reservation data model
  * Represents a charging station reservation from the backend API
+ * Includes additional properties for adapter compatibility
  */
 data class Reservation(
     @SerializedName("id") val id: String?,
@@ -19,7 +20,10 @@ data class Reservation(
     @SerializedName("startTime") val startTime: String,
     @SerializedName("endTime") val endTime: String,
     @SerializedName("status") val status: String,
-    @SerializedName("qrCode") val qrCode: String?
-)
-
-
+    @SerializedName("qrCode") val qrCode: String?,
+    @SerializedName("createdAt") val createdAt: String = "", // default empty if backend doesn't provide
+) {
+    // For backward compatibility with old adapter using reservationTime
+    val reservationTime: String
+        get() = startTime
+}

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <!--    Replaced LinearLayout with ConstraintLayout for better bottom nav support-->
-
-    <!--    Main Content ScrollView-->
+    <!-- Scrollable Dashboard Content -->
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            Header-->
+            <!-- Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +31,6 @@
                 android:elevation="4dp"
                 android:padding="20dp">
 
-<!--                Updd header background to black and text to whiteate-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,8 +50,7 @@
                     android:layout_marginTop="4dp" />
             </LinearLayout>
 
-<!--            Map Section-->
-<!--            Increased map height from 250dp to 450dp and updated styling-->
+            <!-- Map Section -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
@@ -85,52 +82,23 @@
                     android:letterSpacing="0.01" />
             </androidx.cardview.widget.CardView>
 
-<!--            Reservations Section-->
-<!--            Updated colors to black/white theme-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#FFFFFF"
-                android:paddingBottom="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My Reservations"
-                    android:textSize="20sp"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:padding="16dp"
-                    android:paddingTop="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:letterSpacing="0.01" />
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
-                    app:tabTextColor="#808080"
-                    app:tabSelectedTextColor="#000000"
-                    app:tabIndicatorColor="#000000"
-                    app:tabIndicatorHeight="3dp"
-                    app:tabMode="fixed"
-                    app:tabTextAppearance="@style/TabTextStyle" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reservationRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:paddingBottom="80dp"
-                    android:clipToPadding="false" />
-            </LinearLayout>
+            <!-- Reservations Section -->
 
         </LinearLayout>
     </ScrollView>
 
-<!--    Added bottom navigation bar with 4 items-->
+    <!-- Fragment container for Account view -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
