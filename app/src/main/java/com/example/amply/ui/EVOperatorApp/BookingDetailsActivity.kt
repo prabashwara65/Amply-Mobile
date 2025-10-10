@@ -1,4 +1,4 @@
-package com.example.amply.UI.EVOperatorApp
+package com.example.amply.ui.EVOperatorApp
 
 import android.content.Intent
 import android.os.Bundle

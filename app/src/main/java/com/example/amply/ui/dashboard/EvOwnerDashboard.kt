@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
 import com.example.amply.data.UserProfileDatabaseHelper
 import com.example.amply.ui.reservation.ReservationViewAdapter
-import com.example.amply.model.Reservation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.mapbox.mapboxsdk.Mapbox
@@ -53,9 +52,21 @@ class EvOwnerDashboard : AppCompatActivity() {
         reservationRecyclerView.layoutManager = LinearLayoutManager(this)
 
         // Initialize adapter first (important!)
-        reservationAdapter = ReservationViewAdapter(mutableListOf()) { reservation ->
-            Toast.makeText(this, "Reservation: ${reservation.stationName}", Toast.LENGTH_SHORT).show()
-        }
+        // Initialize adapter
+        reservationAdapter = ReservationViewAdapter(
+            mutableListOf(),
+            onItemClick = { reservation ->
+                Toast.makeText(this, "Reservation: ${reservation.stationName}", Toast.LENGTH_SHORT).show()
+            },
+            onUpdateClick = { reservation ->
+                Toast.makeText(this, "Update clicked for ${reservation.stationName}", Toast.LENGTH_SHORT).show()
+            },
+            onDeleteClick = { reservation ->
+                Toast.makeText(this, "Delete clicked for ${reservation.stationName}", Toast.LENGTH_SHORT).show()
+            }
+        )
+        reservationRecyclerView.adapter = reservationAdapter
+
         reservationRecyclerView.adapter = reservationAdapter
 
         setupTabs()

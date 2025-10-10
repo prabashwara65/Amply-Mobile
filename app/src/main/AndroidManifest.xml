@@ -36,22 +36,23 @@
 
         <!-- Reservation Activities -->
         <activity android:name=".ui.reservation.ReservationListActivity" android:exported="true" />
+        <activity android:name=".ui.reservation.CreateReservationActivity" android:exported="true" />
 
         <!-- EV Operator Module Activities -->
         <activity
-            android:name=".UI.EVOperatorApp.MainActivity"
+            android:name=".ui.EVOperatorApp.MainActivity"
             android:exported="true" />
 
         <activity
-            android:name=".UI.EVOperatorApp.QRScannerActivity"
+            android:name=".ui.EVOperatorApp.QRScannerActivity"
             android:exported="true" />
 
         <activity
-            android:name=".UI.EVOperatorApp.BookingDetailsActivity"
+            android:name=".ui.EVOperatorApp.BookingDetailsActivity"
             android:exported="true" />
 
         <activity
-            android:name=".UI.EVOperatorApp.FinalizeOperationActivity"
+            android:name=".ui.EVOperatorApp.FinalizeOperationActivity"
             android:exported="true" />
 
     </application>
