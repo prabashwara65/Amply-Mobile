@@ -92,6 +92,7 @@ class UserProfileDatabaseHelper(context: Context) :
         insertSampleStations(db)
     }
 
+    // Called when database version is upgraded. Drops old tables and recreates new ones.
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_RESERVATIONS")
@@ -101,6 +102,7 @@ class UserProfileDatabaseHelper(context: Context) :
 
     // ---------------- USERS ----------------
 
+    // Adds a new EV owner (username and password) to the database.
     fun addUser(username: String, password: String): Boolean {
         val db = writableDatabase
         val values = ContentValues().apply {
@@ -112,6 +114,7 @@ class UserProfileDatabaseHelper(context: Context) :
         return result != -1L
     }
 
+    // Checks if a user already exists by username.
     fun checkUser(username: String): Boolean {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $TABLE_USERS WHERE $COLUMN_USERNAME = ?", arrayOf(username))
@@ -121,6 +124,7 @@ class UserProfileDatabaseHelper(context: Context) :
         return exists
     }
 
+    // Validates user credentials for login.
     fun validateUser(username: String, password: String): Boolean {
         val db = readableDatabase
         val cursor = db.rawQuery(
@@ -135,6 +139,7 @@ class UserProfileDatabaseHelper(context: Context) :
 
     // ---------------- STATIONS ----------------
 
+    //Inserts sample charging stations into the database for initial testing.
     private fun insertSampleStations(db: SQLiteDatabase?) {
         val stations = listOf(
             arrayOf("EV Hub Downtown", "123 Main St, Colombo", 6.9271, 79.8612, "AC", 3, 5, "active"),
@@ -159,6 +164,7 @@ class UserProfileDatabaseHelper(context: Context) :
         }
     }
 
+    // Retrieves all active charging stations as a list of ChargingStation objects.
     fun getAllChargingStationsList(): List<ChargingStation> {
         val stations = mutableListOf<ChargingStation>()
         val db = readableDatabase
@@ -186,6 +192,7 @@ class UserProfileDatabaseHelper(context: Context) :
 
     // ---------------- RESERVATIONS ----------------
 
+    // Inserts a new reservation record for an EV owner.
     fun addReservation(
         userId: Int,
         stationId: Int,
@@ -211,6 +218,7 @@ class UserProfileDatabaseHelper(context: Context) :
         return result != -1L
     }
 
+    // Retrieves reservations filtered by userId and status
     fun getReservationsByStatus(userId: Int, status: String): List<Reservation> {
         val reservations = mutableListOf<Reservation>()
         val db = readableDatabase
@@ -245,6 +253,7 @@ class UserProfileDatabaseHelper(context: Context) :
         return reservations
     }
 
+    // Updates the status of a reservation
     fun updateReservationStatus(reservationId: Int, status: String): Boolean {
         val db = writableDatabase
         val values = ContentValues().apply { put(COLUMN_RES_STATUS, status) }
@@ -253,6 +262,7 @@ class UserProfileDatabaseHelper(context: Context) :
         return result > 0
     }
 
+    // Deletes a reservation record by its ID.
     fun deleteReservation(reservationId: Int): Boolean {
         val db = writableDatabase
         val result = db.delete(TABLE_RESERVATIONS, "$COLUMN_RES_ID = ?", arrayOf(reservationId.toString()))

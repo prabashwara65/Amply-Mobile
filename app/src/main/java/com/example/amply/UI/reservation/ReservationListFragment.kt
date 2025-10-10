@@ -37,6 +37,7 @@ class ReservationListFragment : Fragment() {
     companion object {
         private const val ARG_STATUS = "status"
 
+        // Factory method to create a new instance of the fragment with a specific status
         fun newInstance(status: String): ReservationListFragment {
             val fragment = ReservationListFragment()
             val args = Bundle()
@@ -46,6 +47,7 @@ class ReservationListFragment : Fragment() {
         }
     }
 
+    // Called when fragment is created
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -53,6 +55,7 @@ class ReservationListFragment : Fragment() {
         }
     }
 
+    // Inflates the fragment's layout
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +64,7 @@ class ReservationListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_reservation_list, container, false)
     }
 
+    // Called after the view has been created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -84,6 +88,7 @@ class ReservationListFragment : Fragment() {
         fetchReservations()
     }
 
+    // Fetches reservations from backend using Retrofit, filters by status, and updates UI
     private fun fetchReservations() {
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -140,11 +145,13 @@ class ReservationListFragment : Fragment() {
         })
     }
 
+    // Shows RecyclerView and hides empty state
     private fun showRecyclerView() {
         recyclerView.visibility = View.VISIBLE
         emptyState.visibility = View.GONE
     }
 
+    // Shows empty state and hides RecyclerView
     private fun showEmptyState() {
         recyclerView.visibility = View.GONE
         emptyState.visibility = View.VISIBLE

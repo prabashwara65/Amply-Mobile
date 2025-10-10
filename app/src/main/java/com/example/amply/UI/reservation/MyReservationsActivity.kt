@@ -22,6 +22,7 @@ class MyReservationsActivity : AppCompatActivity() {
     private lateinit var emptyStateLayout: LinearLayout
     private lateinit var bottomNavigation: BottomNavigationView
 
+    // Called when activity is created
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_reservations)
@@ -35,9 +36,11 @@ class MyReservationsActivity : AppCompatActivity() {
         // Setup ViewPager with adapter
         setupViewPager()
 
+        // Setup bottom navigation bar
         setupBottomNavigation()
     }
 
+    // Sets up the ViewPager2 with its adapter and connects it to TabLayout
     private fun setupViewPager() {
         val adapter = ReservationPagerAdapter(this)
         viewPager.adapter = adapter
@@ -57,8 +60,10 @@ class MyReservationsActivity : AppCompatActivity() {
     private inner class ReservationPagerAdapter(activity: FragmentActivity) :
         FragmentStateAdapter(activity) {
 
+        // Total number of tabs
         override fun getItemCount(): Int = 3
 
+        // Returns appropriate fragment based on tab position
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> ReservationListFragment.newInstance("Pending")
@@ -69,6 +74,7 @@ class MyReservationsActivity : AppCompatActivity() {
         }
     }
 
+    // Sets up bottom navigation and handles item clicks
     private fun setupBottomNavigation() {
         // Set Activity tab as selected
         bottomNavigation.selectedItemId = R.id.nav_activity

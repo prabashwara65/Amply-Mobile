@@ -30,14 +30,17 @@ class ReservationViewAdapter(
 
     }
 
+    // Inflates the layout for a single item in RecyclerView and creates a ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_reservation, parent, false)
         return ViewHolder(view)
     }
 
+    // Returns the number of reservation items in the list
     override fun getItemCount() = reservations.size
 
+    // Binds data to the ViewHolder for the given position
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reservation = reservations[position]
         holder.reservationId.text = "ID: ${reservation.reservationCode}"
@@ -55,6 +58,7 @@ class ReservationViewAdapter(
         holder.btnDelete.setOnClickListener { onDeleteClick(reservation) }
     }
 
+    // Updates the adapter's data with a new list of reservations and refreshes RecyclerView
     fun updateData(newData: List<ReservationListActivity.ReservationExtended>) {
         reservations.clear()
         reservations.addAll(newData)
