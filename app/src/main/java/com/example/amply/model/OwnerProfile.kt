@@ -3,24 +3,24 @@ package com.example.amply.model
 import com.google.gson.annotations.SerializedName
 
 data class OwnerProfile(
-    @SerializedName("NIC")
+    @SerializedName("nic")
     val nic: String,
 
-    @SerializedName("FullName")
+    @SerializedName("fullName")
     val fullName: String,
 
-    @SerializedName("Email")
+    @SerializedName("email")
     val email: String,
 
-    @SerializedName("Password")
+    @SerializedName("password")
     val password: String,
 
-    @SerializedName("Phone")
+    @SerializedName("phone")
     val phone: String,
 
-    @SerializedName("Status")
+    @SerializedName("status")
     val status: String = "active",
 
-    @SerializedName("Role")
+    @SerializedName("role")
     val role: String = "EvOwner"
 )

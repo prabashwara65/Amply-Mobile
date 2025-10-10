@@ -9,6 +9,10 @@ interface UserProfileApi {
     @GET("api/v1/userprofiles")
     fun getAllUsers(): Call<List<OwnerProfile>>
 
+    @GET("api/v1/userprofiles")
+    fun getUserByEmail(@Query("email") email: String): Call<List<OwnerProfile>>
+
+
     @GET("api/v1/userprofiles/{nic}")
     fun getUserByNIC(@Path("nic") nic: String): Call<OwnerProfile>
 

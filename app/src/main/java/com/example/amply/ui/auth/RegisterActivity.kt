@@ -57,7 +57,7 @@ class RegisterActivity : AppCompatActivity() {
                 fullName = fullName,
                 email = email,
                 password = password,
-                phone = phone
+                phone = phone,
             )
 
             // API call

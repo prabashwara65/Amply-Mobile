@@ -55,7 +55,8 @@
             android:exported="true" />
 
         <!-- Add this line for AccountActivity -->
-        <activity android:name=".ui.dashboard.EvOperatorAppBar.AccountActivity" />
+        <activity android:name=".ui.dashboard.EvOperatorAppBar.AccountActivity"
+            android:exported="true" />
 
     </application>
 

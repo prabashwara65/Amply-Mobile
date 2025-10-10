@@ -32,4 +32,6 @@
     <color name="bg_confirmed">#D1FAE5</color>
     <color name="bg_cancelled">#FEE2E2</color>
 
+    <color name="green">#4CAF50</color>
+
 </resources>
