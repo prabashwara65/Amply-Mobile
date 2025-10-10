@@ -1,16 +1,13 @@
 package com.example.amply.model
 
-
-import com.google.gson.annotations.SerializedName
-
 data class ChargingStation(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("address") val address: String,
-    @SerializedName("latitude") val latitude: Double,
-    @SerializedName("longitude") val longitude: Double,
-    @SerializedName("type") val type: String, // AC/DC
-    @SerializedName("availableSlots") val availableSlots: Int,
-    @SerializedName("totalSlots") val totalSlots: Int,
-    @SerializedName("status") val status: String
+    val id: Int,
+    val name: String,
+    val address: String,
+    val latitude: Double,
+    val longitude: Double,
+    val type: String,
+    val availableSlots: Int,
+    val totalSlots: Int,
+    val status: String
 )

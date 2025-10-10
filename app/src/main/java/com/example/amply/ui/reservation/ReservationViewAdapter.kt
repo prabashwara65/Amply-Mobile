@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
+import com.example.amply.model.ReservationExtended
 
 class ReservationViewAdapter(
-    private var reservations: MutableList<ReservationListActivity.ReservationExtended>,
-    private val onItemClick: (ReservationListActivity.ReservationExtended) -> Unit
+    private var reservations: MutableList<ReservationExtended>,
+    private val onItemClick: (ReservationExtended) -> Unit
 ) : RecyclerView.Adapter<ReservationViewAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -42,7 +43,7 @@ class ReservationViewAdapter(
         }
     }
 
-    fun updateData(newData: List<ReservationListActivity.ReservationExtended>) {
+    fun updateData(newData: List<ReservationExtended>) {
         reservations.clear()
         reservations.addAll(newData)
         notifyDataSetChanged()
