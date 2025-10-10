@@ -3,6 +3,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
@@ -13,6 +15,10 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Amply">
+
+        <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyCyHbrOvJEmfWm9mB0d16HMHkbDt_XOlvI" />
 
         <!-- Launcher Activity -->
         <activity
@@ -36,6 +42,10 @@
 
         <!-- Reservation Activities -->
         <activity android:name=".ui.reservation.ReservationListActivity" android:exported="true" />
+        <activity
+            android:name=".ui.reservation.MyReservationsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Amply" />
 
         <!-- EV Operator Module Activities -->
         <activity

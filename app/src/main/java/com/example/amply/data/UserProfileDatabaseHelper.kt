@@ -5,73 +5,88 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.amply.ui.reservation.ChargingStation
-import com.example.amply.ui.reservation.Reservation
+import com.example.amply.model.ChargingStation
+import com.example.amply.model.Reservation
 
 class UserProfileDatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_NAME = "amply.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3 // incremented version since schema changed
 
-        // Existing EvOwners table constants
+        // EvOwners table
         private const val TABLE_USERS = "EvOwners"
         private const val COLUMN_ID = "id"
         private const val COLUMN_USERNAME = "username"
         private const val COLUMN_PASSWORD = "password"
 
+        // Reservations table
         private const val TABLE_RESERVATIONS = "Reservations"
         private const val COLUMN_RES_ID = "id"
         private const val COLUMN_RES_USER_ID = "userId"
         private const val COLUMN_RES_STATION_ID = "stationId"
         private const val COLUMN_RES_STATION_NAME = "stationName"
         private const val COLUMN_RES_DATE = "reservationDate"
-        private const val COLUMN_RES_TIME = "reservationTime"
+        private const val COLUMN_RES_START_TIME = "startTime"
+        private const val COLUMN_RES_END_TIME = "endTime"
         private const val COLUMN_RES_STATUS = "status" // pending, confirmed, cancelled
         private const val COLUMN_RES_CREATED_AT = "createdAt"
 
+        // ChargingStations table
         private const val TABLE_STATIONS = "ChargingStations"
         private const val COLUMN_STATION_ID = "id"
         private const val COLUMN_STATION_NAME = "name"
         private const val COLUMN_STATION_ADDRESS = "address"
         private const val COLUMN_STATION_LAT = "latitude"
         private const val COLUMN_STATION_LNG = "longitude"
-        private const val COLUMN_STATION_TYPE = "type" // AC/DC
+        private const val COLUMN_STATION_TYPE = "type"
         private const val COLUMN_STATION_AVAILABLE_SLOTS = "availableSlots"
         private const val COLUMN_STATION_TOTAL_SLOTS = "totalSlots"
-        private const val COLUMN_STATION_STATUS = "status" // active/inactive
+        private const val COLUMN_STATION_STATUS = "status"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        // Existing EvOwners table creation
-        val createTable = ("CREATE TABLE $TABLE_USERS ("
-                + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "$COLUMN_USERNAME TEXT UNIQUE, "
-                + "$COLUMN_PASSWORD TEXT)")
-        db?.execSQL(createTable)
+        // Create EvOwners table
+        val createUsersTable = """
+            CREATE TABLE $TABLE_USERS (
+                $COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_USERNAME TEXT UNIQUE,
+                $COLUMN_PASSWORD TEXT
+            )
+        """.trimIndent()
+        db?.execSQL(createUsersTable)
 
-        val createReservationsTable = ("CREATE TABLE $TABLE_RESERVATIONS ("
-                + "$COLUMN_RES_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "$COLUMN_RES_USER_ID INTEGER, "
-                + "$COLUMN_RES_STATION_ID INTEGER, "
-                + "$COLUMN_RES_STATION_NAME TEXT, "
-                + "$COLUMN_RES_DATE TEXT, "
-                + "$COLUMN_RES_TIME TEXT, "
-                + "$COLUMN_RES_STATUS TEXT, "
-                + "$COLUMN_RES_CREATED_AT TEXT)")
+        // Create Reservations table (updated: startTime, endTime instead of reservationTime)
+        val createReservationsTable = """
+            CREATE TABLE $TABLE_RESERVATIONS (
+                $COLUMN_RES_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_RES_USER_ID INTEGER,
+                $COLUMN_RES_STATION_ID INTEGER,
+                $COLUMN_RES_STATION_NAME TEXT,
+                $COLUMN_RES_DATE TEXT,
+                $COLUMN_RES_START_TIME TEXT,
+                $COLUMN_RES_END_TIME TEXT,
+                $COLUMN_RES_STATUS TEXT,
+                $COLUMN_RES_CREATED_AT TEXT
+            )
+        """.trimIndent()
         db?.execSQL(createReservationsTable)
 
-        val createStationsTable = ("CREATE TABLE $TABLE_STATIONS ("
-                + "$COLUMN_STATION_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "$COLUMN_STATION_NAME TEXT, "
-                + "$COLUMN_STATION_ADDRESS TEXT, "
-                + "$COLUMN_STATION_LAT REAL, "
-                + "$COLUMN_STATION_LNG REAL, "
-                + "$COLUMN_STATION_TYPE TEXT, "
-                + "$COLUMN_STATION_AVAILABLE_SLOTS INTEGER, "
-                + "$COLUMN_STATION_TOTAL_SLOTS INTEGER, "
-                + "$COLUMN_STATION_STATUS TEXT)")
+        // Create ChargingStations table
+        val createStationsTable = """
+            CREATE TABLE $TABLE_STATIONS (
+                $COLUMN_STATION_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_STATION_NAME TEXT,
+                $COLUMN_STATION_ADDRESS TEXT,
+                $COLUMN_STATION_LAT REAL,
+                $COLUMN_STATION_LNG REAL,
+                $COLUMN_STATION_TYPE TEXT,
+                $COLUMN_STATION_AVAILABLE_SLOTS INTEGER,
+                $COLUMN_STATION_TOTAL_SLOTS INTEGER,
+                $COLUMN_STATION_STATUS TEXT
+            )
+        """.trimIndent()
         db?.execSQL(createStationsTable)
 
         insertSampleStations(db)
@@ -84,39 +99,41 @@ class UserProfileDatabaseHelper(context: Context) :
         onCreate(db)
     }
 
-    // Insert a new user
-    fun addUser(username: String, password: String): Boolean {
-        val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(COLUMN_USERNAME, username)
-        values.put(COLUMN_PASSWORD, password)
+    // ---------------- USERS ----------------
 
+    fun addUser(username: String, password: String): Boolean {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_USERNAME, username)
+            put(COLUMN_PASSWORD, password)
+        }
         val result = db.insert(TABLE_USERS, null, values)
         db.close()
         return result != -1L
     }
 
-    // Check if a user exists
     fun checkUser(username: String): Boolean {
-        val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE_USERS WHERE $COLUMN_USERNAME = ?"
-        val cursor = db.rawQuery(query, arrayOf(username))
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_USERS WHERE $COLUMN_USERNAME = ?", arrayOf(username))
         val exists = cursor.count > 0
         cursor.close()
         db.close()
         return exists
     }
 
-    // Validate login
     fun validateUser(username: String, password: String): Boolean {
-        val db = this.readableDatabase
-        val query = "SELECT * FROM $TABLE_USERS WHERE $COLUMN_USERNAME = ? AND $COLUMN_PASSWORD = ?"
-        val cursor = db.rawQuery(query, arrayOf(username, password))
+        val db = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM $TABLE_USERS WHERE $COLUMN_USERNAME = ? AND $COLUMN_PASSWORD = ?",
+            arrayOf(username, password)
+        )
         val valid = cursor.count > 0
         cursor.close()
         db.close()
         return valid
     }
+
+    // ---------------- STATIONS ----------------
 
     private fun insertSampleStations(db: SQLiteDatabase?) {
         val stations = listOf(
@@ -127,152 +144,25 @@ class UserProfileDatabaseHelper(context: Context) :
             arrayOf("Eco Charge Hub", "654 Baseline Rd, Colombo", 6.9034, 79.8612, "AC", 5, 8, "active")
         )
 
-        stations.forEach { station ->
+        stations.forEach {
             val values = ContentValues().apply {
-                put(COLUMN_STATION_NAME, station[0] as String)
-                put(COLUMN_STATION_ADDRESS, station[1] as String)
-                put(COLUMN_STATION_LAT, station[2] as Double)
-                put(COLUMN_STATION_LNG, station[3] as Double)
-                put(COLUMN_STATION_TYPE, station[4] as String)
-                put(COLUMN_STATION_AVAILABLE_SLOTS, station[5] as Int)
-                put(COLUMN_STATION_TOTAL_SLOTS, station[6] as Int)
-                put(COLUMN_STATION_STATUS, station[7] as String)
+                put(COLUMN_STATION_NAME, it[0] as String)
+                put(COLUMN_STATION_ADDRESS, it[1] as String)
+                put(COLUMN_STATION_LAT, it[2] as Double)
+                put(COLUMN_STATION_LNG, it[3] as Double)
+                put(COLUMN_STATION_TYPE, it[4] as String)
+                put(COLUMN_STATION_AVAILABLE_SLOTS, it[5] as Int)
+                put(COLUMN_STATION_TOTAL_SLOTS, it[6] as Int)
+                put(COLUMN_STATION_STATUS, it[7] as String)
             }
             db?.insert(TABLE_STATIONS, null, values)
         }
     }
 
-    fun addReservation(userId: Int, stationId: Int, stationName: String, date: String, time: String, status: String): Boolean {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_RES_USER_ID, userId)
-            put(COLUMN_RES_STATION_ID, stationId)
-            put(COLUMN_RES_STATION_NAME, stationName)
-            put(COLUMN_RES_DATE, date)
-            put(COLUMN_RES_TIME, time)
-            put(COLUMN_RES_STATUS, status)
-            put(COLUMN_RES_CREATED_AT, System.currentTimeMillis().toString())
-        }
-        val result = db.insert(TABLE_RESERVATIONS, null, values)
-        db.close()
-        return result != -1L
-    }
-
-    fun getPendingReservations(userId: Int): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'pending' ORDER BY $COLUMN_RES_DATE ASC",
-            arrayOf(userId.toString())
-        )
-    }
-
-    fun getConfirmedReservations(userId: Int): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'confirmed' ORDER BY $COLUMN_RES_DATE ASC",
-            arrayOf(userId.toString())
-        )
-    }
-
-    fun getPendingReservationsCount(userId: Int): Int {
-        val db = this.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT COUNT(*) FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'pending'",
-            arrayOf(userId.toString())
-        )
-        var count = 0
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0)
-        }
-        cursor.close()
-        db.close()
-        return count
-    }
-
-    fun getConfirmedReservationsCount(userId: Int): Int {
-        val db = this.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT COUNT(*) FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'confirmed'",
-            arrayOf(userId.toString())
-        )
-        var count = 0
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0)
-        }
-        cursor.close()
-        db.close()
-        return count
-    }
-
-    fun updateReservationStatus(reservationId: Int, status: String): Boolean {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_RES_STATUS, status)
-        }
-        val result = db.update(TABLE_RESERVATIONS, values, "$COLUMN_RES_ID = ?", arrayOf(reservationId.toString()))
-        db.close()
-        return result > 0
-    }
-
-    fun deleteReservation(reservationId: Int): Boolean {
-        val db = this.writableDatabase
-        val result = db.delete(TABLE_RESERVATIONS, "$COLUMN_RES_ID = ?", arrayOf(reservationId.toString()))
-        db.close()
-        return result > 0
-    }
-
-    fun getAllChargingStations(): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_STATIONS WHERE $COLUMN_STATION_STATUS = 'active'",
-            null
-        )
-    }
-
-    fun getChargingStationById(stationId: Int): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_STATIONS WHERE $COLUMN_STATION_ID = ?",
-            arrayOf(stationId.toString())
-        )
-    }
-
-    fun getReservationsByStatus(userId: Int, status: String): List<Reservation> {
-        val reservations = mutableListOf<Reservation>()
-        val db = this.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT * FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = ? ORDER BY $COLUMN_RES_DATE ASC",
-            arrayOf(userId.toString(), status)
-        )
-
-        if (cursor.moveToFirst()) {
-            do {
-                val reservation = Reservation(
-                    id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RES_ID)),
-                    userId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RES_USER_ID)),
-                    stationId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RES_STATION_ID)),
-                    stationName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_STATION_NAME)),
-                    reservationDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_DATE)),
-                    reservationTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_TIME)),
-                    status = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_STATUS)),
-                    createdAt = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_CREATED_AT))
-                )
-                reservations.add(reservation)
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        db.close()
-        return reservations
-    }
-
     fun getAllChargingStationsList(): List<ChargingStation> {
         val stations = mutableListOf<ChargingStation>()
-        val db = this.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT * FROM $TABLE_STATIONS WHERE $COLUMN_STATION_STATUS = 'active'",
-            null
-        )
-
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_STATIONS WHERE $COLUMN_STATION_STATUS = 'active'", null)
         if (cursor.moveToFirst()) {
             do {
                 val station = ChargingStation(
@@ -292,5 +182,81 @@ class UserProfileDatabaseHelper(context: Context) :
         cursor.close()
         db.close()
         return stations
+    }
+
+    // ---------------- RESERVATIONS ----------------
+
+    fun addReservation(
+        userId: Int,
+        stationId: Int,
+        stationName: String,
+        date: String,
+        startTime: String,
+        endTime: String,
+        status: String
+    ): Boolean {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_RES_USER_ID, userId)
+            put(COLUMN_RES_STATION_ID, stationId)
+            put(COLUMN_RES_STATION_NAME, stationName)
+            put(COLUMN_RES_DATE, date)
+            put(COLUMN_RES_START_TIME, startTime)
+            put(COLUMN_RES_END_TIME, endTime)
+            put(COLUMN_RES_STATUS, status)
+            put(COLUMN_RES_CREATED_AT, System.currentTimeMillis().toString())
+        }
+        val result = db.insert(TABLE_RESERVATIONS, null, values)
+        db.close()
+        return result != -1L
+    }
+
+    fun getReservationsByStatus(userId: Int, status: String): List<Reservation> {
+        val reservations = mutableListOf<Reservation>()
+        val db = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = ? ORDER BY $COLUMN_RES_DATE ASC",
+            arrayOf(userId.toString(), status)
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                val reservation = Reservation(
+                    id = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_ID)),
+                    reservationCode = "N/A",
+                    fullName = "Unknown",
+                    nic = null,
+                    vehicleNumber = "N/A",
+                    stationId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_STATION_ID)),
+                    stationName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_STATION_NAME)),
+                    slotNo = 0,
+                    reservationDate = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_DATE)),
+                    startTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_START_TIME)),
+                    endTime = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_END_TIME)),
+                    status = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RES_STATUS)),
+                    qrCode = null
+                )
+                reservations.add(reservation)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+        return reservations
+    }
+
+    fun updateReservationStatus(reservationId: Int, status: String): Boolean {
+        val db = writableDatabase
+        val values = ContentValues().apply { put(COLUMN_RES_STATUS, status) }
+        val result = db.update(TABLE_RESERVATIONS, values, "$COLUMN_RES_ID = ?", arrayOf(reservationId.toString()))
+        db.close()
+        return result > 0
+    }
+
+    fun deleteReservation(reservationId: Int): Boolean {
+        val db = writableDatabase
+        val result = db.delete(TABLE_RESERVATIONS, "$COLUMN_RES_ID = ?", arrayOf(reservationId.toString()))
+        db.close()
+        return result > 0
     }
 }
