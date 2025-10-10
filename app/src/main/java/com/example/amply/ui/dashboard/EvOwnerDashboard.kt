@@ -9,11 +9,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
 import com.example.amply.data.UserProfileDatabaseHelper
 import com.example.amply.model.ChargingStation
+import com.example.amply.ui.dashboard.EvOperatorAppBar.AccountActivity
 import com.example.amply.ui.reservation.MyReservationsActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -164,7 +163,11 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
                     true
                 }
                 R.id.nav_saved -> { Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show(); true }
-                R.id.nav_account -> { Toast.makeText(this, "Account", Toast.LENGTH_SHORT).show(); true }
+                R.id.nav_account -> {
+                    // Launch AccountActivity
+                    startActivity(Intent(this, AccountActivity::class.java))
+                    true
+                }
                 else -> false
             }
         }

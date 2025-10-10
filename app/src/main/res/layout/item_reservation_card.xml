@@ -15,6 +15,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Header: Station Name & Status Badge -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
                 android:letterSpacing="0.05" />
         </LinearLayout>
 
-         Reservation Code 
+        <!-- Reservation Code -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,14 +73,14 @@
                 android:fontFamily="monospace" />
         </LinearLayout>
 
-         Date and Time Row 
+        <!-- Date and Time Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="8dp">
 
-             Date 
+            <!-- Date -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -103,7 +104,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-             Time 
+            <!-- Time -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -128,13 +129,13 @@
             </LinearLayout>
         </LinearLayout>
 
-         Slot and Vehicle Row 
+        <!-- Slot and Vehicle Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-             Slot Number 
+            <!-- Slot Number -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -158,7 +159,7 @@
                     android:textSize="13sp" />
             </LinearLayout>
 
-             Vehicle Number 
+            <!-- Vehicle Number -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -183,8 +184,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Added QR Code section for confirmed reservations -->
-        <!-- QR Code Section (Only visible for confirmed reservations) -->
+        <!-- QR Code Section -->
         <LinearLayout
             android:id="@+id/qrCodeContainer"
             android:layout_width="match_parent"
@@ -224,6 +224,35 @@
                 android:layout_marginTop="6dp" />
         </LinearLayout>
 
-    </LinearLayout>
+        <!-- Edit & Delete Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="16dp">
 
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:textColor="#1E2939"
+                android:background="#FFFFFF"
+                android:layout_marginEnd="12dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"/>
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textColor="#FFFFFF"
+                android:background="#EF4444"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

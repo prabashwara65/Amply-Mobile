@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Reservation data model
  * Represents a charging station reservation from the backend API
+ * Includes additional properties for adapter compatibility
  */
 data class Reservation(
     @SerializedName("id") val id: String?,
