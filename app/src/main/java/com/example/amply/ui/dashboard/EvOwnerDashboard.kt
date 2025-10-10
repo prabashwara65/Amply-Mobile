@@ -63,6 +63,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         @SerializedName("location") val location: LocationData
     )
 
+    // Called when activity is created
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ev_owner_dashboard)
@@ -81,6 +82,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         checkLocationPermission()
     }
 
+    // Called when the Google Map is ready
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -98,6 +100,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         fetchAndDisplayLocations()
     }
 
+    // Fetches charging station data from API and displays them as markers on the map
     private fun fetchAndDisplayLocations() {
         CoroutineScope(Dispatchers.IO).launch {
             val response = URL(apiUrl).readText()
@@ -117,6 +120,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Retrieves and shows the user's current location on the map
     private fun showCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -139,6 +143,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Loads nearby charging stations from local database and displays markers
     private fun loadNearbyStations() {
         val stations: List<ChargingStation> = dbHelper.getAllChargingStationsList()
         for (station in stations) {
@@ -152,6 +157,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Sets up bottom navigation bar and handles item clicks for different sections
     private fun setupBottomNavigation() {
         bottomNavigation.selectedItemId = R.id.nav_map
         bottomNavigation.setOnItemSelectedListener { item ->
@@ -173,6 +179,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Checks if location permission is granted and requests it if not
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
@@ -187,6 +194,7 @@ class EvOwnerDashboard : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // Handles the result of location permission request
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
