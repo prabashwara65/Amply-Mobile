@@ -25,6 +25,8 @@
     <color name="gray_700">#374151</color>
     <color name="gray_800">#1F2937</color>
     <color name="gray_900">#111827</color>
+    <color name="purple_700">#6200EE</color>
+    <color name="teal_700">#018786</color>
 
     <!-- Status Colors -->
     <color name="status_pending">#F59E0B</color>
@@ -35,5 +37,7 @@
     <color name="bg_pending">#FEF3C7</color>
     <color name="bg_confirmed">#D1FAE5</color>
     <color name="bg_cancelled">#FEE2E2</color>
+
+    <color name="green">#4CAF50</color>
 
 </resources>

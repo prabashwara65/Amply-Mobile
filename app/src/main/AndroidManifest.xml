@@ -33,7 +33,7 @@
 
         <!-- Other Activities -->
         <activity android:name=".MainActivity" android:exported="false" />
-        <activity android:name=".ui.auth.RegisterActivity" android:exported="false" />
+        <activity android:name=".ui.auth.RegisterActivity" android:exported="true" />
 
         <!-- Dashboard Activities -->
 
@@ -61,6 +61,10 @@
 
         <activity
             android:name=".ui.EVOperatorApp.FinalizeOperationActivity"
+            android:exported="true" />
+
+        <!-- Add this line for AccountActivity -->
+        <activity android:name=".ui.dashboard.EvOperatorAppBar.AccountActivity"
             android:exported="true" />
 
     </application>
