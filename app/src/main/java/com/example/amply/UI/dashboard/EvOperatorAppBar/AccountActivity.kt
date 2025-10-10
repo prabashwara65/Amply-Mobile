@@ -2,6 +2,7 @@ package com.example.amply.ui.dashboard.EvOperatorAppBar
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -26,6 +27,7 @@ class AccountActivity : AppCompatActivity() {
     private lateinit var etPhone: EditText
     private lateinit var btnUpdate: Button
     private lateinit var btnStatus: Button
+    private lateinit var btnRequestReactivate: Button
 
     private lateinit var userProfileApi: UserProfileApi
     private var currentUser: OwnerProfile? = null
@@ -45,8 +47,29 @@ class AccountActivity : AppCompatActivity() {
         etPhone = findViewById(R.id.etPhone)
         btnUpdate = findViewById(R.id.btnUpdate)
         btnStatus = findViewById(R.id.btnStatus)
+        btnRequestReactivate = findViewById(R.id.btnRequestReactivate)
+
+        btnRequestReactivate.visibility = View.GONE // hide initially
 
         loadUserData()
+
+        btnStatus.setOnClickListener {
+            // Mark locally as deactive
+            statusToSend = "deactive"
+            btnStatus.text = statusToSend
+            btnStatus.isEnabled = false
+            btnStatus.setBackgroundColor(resources.getColor(android.R.color.darker_gray))
+            Toast.makeText(this, "Status set to deactive. Click Update to apply.", Toast.LENGTH_SHORT).show()
+
+            // Show "Request Reactivation" button
+            btnRequestReactivate.visibility = View.VISIBLE
+        }
+
+        btnRequestReactivate.setOnClickListener {
+            // Only show Toast, no DB change
+            Toast.makeText(this, "Reactivation request sent to admin", Toast.LENGTH_LONG).show()
+            Log.d("AccountActivity", "Reactivation request sent for ${currentUser?.email}")
+        }
 
         btnUpdate.setOnClickListener {
             updateUserDetails()
@@ -68,31 +91,16 @@ class AccountActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val users = response.body() ?: emptyList()
                     currentUser = users.find { it.email.equals(loggedEmail, ignoreCase = true) }
-                    if (currentUser != null) {
-                        populateFields(currentUser!!)
-                        Log.d("AccountActivity", "Loaded user: ${currentUser!!.email}")
-                    } else {
-                        Toast.makeText(
-                            this@AccountActivity,
-                            "User not found on server",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    currentUser?.let { populateFields(it) } ?: run {
+                        Toast.makeText(this@AccountActivity, "User not found on server", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(
-                        this@AccountActivity,
-                        "Failed to fetch users from server",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@AccountActivity, "Failed to fetch users from server", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<OwnerProfile>>, t: Throwable) {
-                Toast.makeText(
-                    this@AccountActivity,
-                    "Error fetching users: ${t.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@AccountActivity, "Error fetching users: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -104,26 +112,16 @@ class AccountActivity : AppCompatActivity() {
         etNic.setText(user.nic)
         etPhone.setText(user.phone)
 
-        // Initialize status
         statusToSend = user.status.lowercase()
         btnStatus.text = statusToSend
+        btnStatus.isEnabled = statusToSend != "deactive"
+        btnStatus.setBackgroundColor(
+            if (statusToSend == "deactive") resources.getColor(android.R.color.darker_gray)
+            else resources.getColor(android.R.color.holo_green_dark)
+        )
 
-        if (statusToSend == "deactive") {
-            btnStatus.isEnabled = false
-            btnStatus.setBackgroundColor(resources.getColor(android.R.color.darker_gray))
-        } else {
-            btnStatus.isEnabled = true
-            btnStatus.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark))
-        }
-
-        // Deactivate button click
-        btnStatus.setOnClickListener {
-            statusToSend = "deactive"
-            btnStatus.text = statusToSend
-            btnStatus.isEnabled = false
-            btnStatus.setBackgroundColor(resources.getColor(android.R.color.darker_gray))
-            Toast.makeText(this, "Account deactivated locally. Click Update to apply.", Toast.LENGTH_SHORT).show()
-        }
+        // Show request reactivation button if user is already deactive
+        btnRequestReactivate.visibility = if (statusToSend == "deactive") View.VISIBLE else View.GONE
     }
 
     private fun updateUserDetails() {
@@ -149,29 +147,19 @@ class AccountActivity : AppCompatActivity() {
             email = newEmail,
             password = newPassword,
             phone = newPhone,
-            status = statusToSend, // use the clicked status
+            status = statusToSend,
             role = currentUser!!.role
         )
 
-        Log.d(
-            "AccountActivity",
-            "Sending update -> Email: $newEmail, Status: $statusToSend"
-        )
+        Log.d("AccountActivity", "Sending update -> Email: $newEmail, Status: $statusToSend")
 
         userProfileApi.updateUser(currentUser!!.nic, updatedUser)
             .enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    Log.d("AccountActivity", "Response code: ${response.code()}")
                     if (response.isSuccessful) {
-                        // Update SQLite
-                        dbHelper.deleteUser(currentUser!!.email)
-                        dbHelper.addUser(newEmail, newPassword, currentUser!!.role)
-                        Toast.makeText(
-                            this@AccountActivity,
-                            "Profile updated successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(this@AccountActivity, "Profile updated successfully", Toast.LENGTH_SHORT).show()
                         currentUser = updatedUser
+                        btnRequestReactivate.visibility = if (statusToSend == "deactive") View.VISIBLE else View.GONE
                     } else {
                         val errorBody = response.errorBody()?.string()
                         var errorMessage = "Unknown error occurred"
@@ -185,21 +173,13 @@ class AccountActivity : AppCompatActivity() {
                                 e.printStackTrace()
                             }
                         }
-                        Toast.makeText(
-                            this@AccountActivity,
-                            "Update failed: $errorMessage",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(this@AccountActivity, "Update failed: $errorMessage", Toast.LENGTH_LONG).show()
                         Log.d("AccountActivity", "Error body: $errorBody")
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(
-                        this@AccountActivity,
-                        "Network error: ${t.message}",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@AccountActivity, "Network error: ${t.message}", Toast.LENGTH_LONG).show()
                     Log.d("AccountActivity", "Network error: ${t.message}")
                 }
             })
