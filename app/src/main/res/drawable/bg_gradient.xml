@@ -1,0 +1,24 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Gradient background for smooth black-gray blend -->
+    <gradient
+        android:startColor="#2C2C2C"
+        android:endColor="#1A1A1A"
+        android:angle="90" />
+
+    <!-- Rounded corners -->
+    <corners android:radius="14dp" />
+
+    <!-- Subtle outer stroke for depth -->
+    <stroke
+        android:width="1.5dp"
+        android:color="#444444" />
+
+    <!-- Optional slight padding (adds breathing space inside EditText) -->
+    <padding
+        android:left="8dp"
+        android:top="8dp"
+        android:right="8dp"
+        android:bottom="8dp" />
+</shape>

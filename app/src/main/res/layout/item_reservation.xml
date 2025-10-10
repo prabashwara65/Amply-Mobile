@@ -6,19 +6,21 @@
     android:layout_marginBottom="12dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
-    android:background="#FFFFFF">
+    android:background="@color/gray_200">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/gray_200">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:background="@color/gray_200">
 
             <!-- Station Icon -->
             <View
@@ -94,7 +96,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E5E7EB"
+            android:background="@color/stay_gray"
             android:layout_marginVertical="12dp" />
 
         <TextView
@@ -103,7 +105,41 @@
             android:layout_height="wrap_content"
             android:text="ID: #12345"
             android:textSize="12sp"
-            android:textColor="#9CA3AF" />
+            android:textColor="@color/blue_gray" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="8dp"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnUpdate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:backgroundTint="@color/blue_500"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:backgroundTint="@color/red_500"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="8dp" />
+
+
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

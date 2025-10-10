@@ -25,6 +25,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -33,6 +35,8 @@ import java.util.Locale
 class CreateReservationActivity : AppCompatActivity() {
 
     private lateinit var dbHelper: ReservationDatabaseHelper
+    private var isUpdateMode = false
+    private var updateReservationId: String ? = null
 
     // --- Data Class for API ---
     data class ReservationCreateRequest(
@@ -50,6 +54,9 @@ class CreateReservationActivity : AppCompatActivity() {
     interface ReservationApi {
         @POST("api/v1/reservations")
         fun createReservation(@Body reservation: ReservationCreateRequest): Call<Void>
+
+        @PUT("api/v1/reservations/{id}")
+        fun updateReservation(@Path("id") id: String, @Body reservation: ReservationCreateRequest): Call<Void>
     }
 
     @SuppressLint("MissingInflatedId")
@@ -76,6 +83,22 @@ class CreateReservationActivity : AppCompatActivity() {
         val tvStartTime = findViewById<EditText>(R.id.tvStartTime)
         val tvEndTime = findViewById<EditText>(R.id.tvEndTime)
         val btnSubmit = findViewById<Button>(R.id.btnSubmitReservation)
+
+        //check if update mode
+        isUpdateMode = intent.getBooleanExtra("isUpdate", false)
+        if(isUpdateMode){
+            updateReservationId = intent.getStringExtra("id")
+            tvNIC.setText(intent.getStringExtra("nic"))
+            tvFullName.setText(intent.getStringExtra("fullName"))
+            tvVehicleNumber.setText(intent.getStringExtra("vehicleNumber"))
+            tvStationId.setText(intent.getStringExtra("stationId"))
+            tvStationName.setText(intent.getStringExtra("stationName"))
+            tvSlotNo.setText(intent.getIntExtra("slotNo", 0).toString())
+            tvReservationDate.setText(intent.getStringExtra("reservationDate"))
+            tvStartTime.setText(intent.getStringExtra("startTime"))
+            tvEndTime.setText(intent.getStringExtra("endTime"))
+            btnSubmit.text = "Update Reservation"
+        }
 
         // --- Date Picker ---
         tvReservationDate.setOnClickListener {
@@ -159,17 +182,32 @@ class CreateReservationActivity : AppCompatActivity() {
                 EndTime = convertTo24Hour(tvEndTime.text.toString())
             )
 
-            if (isOnline(this)) {
-                createReservation(reservation)
-            } else {
-                saveOffline(reservation)
-                Toast.makeText(this, "You are now offline. Reservation saved locally.", Toast.LENGTH_LONG).show()
-                finish()
+            // Validate all fields before showing popup
+            if (reservation.FullName.isEmpty() || reservation.VehicleNumber.isEmpty() ||
+                reservation.StationName.isEmpty() || reservation.ReservationDate.isEmpty() ||
+                reservation.StartTime.isEmpty() || reservation.EndTime.isEmpty()) {
+                Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            //show preview popup before submitting
+            showReservationPreviewDialog(reservation)
+
+//            if (isOnline(this)) {
+//                if(isUpdateMode && updateReservationId != null){
+//                    updateReservation(updateReservationId!!, reservation)
+//                } else {
+//                    createReservation(reservation)
+//                }
+//            } else {
+//                saveOffline(reservation)
+//                Toast.makeText(this, "You are now offline. Reservation saved locally.", Toast.LENGTH_LONG).show()
+//                finish()
+//            }
         }
     }
 
-    // ✅ Function to check internet connectivity
+    //Function to check internet connectivity
     private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -178,7 +216,7 @@ class CreateReservationActivity : AppCompatActivity() {
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
-    // ✅ Save reservation locally when offline
+    //Save reservation locally when offline
     private fun saveOffline(reservation: ReservationCreateRequest) {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val now = sdf.format(Date())
@@ -203,7 +241,7 @@ class CreateReservationActivity : AppCompatActivity() {
         )
     }
 
-    // ✅ Retrofit POST API call
+    // Retrofit POST API call
     private fun createReservation(reservation: ReservationCreateRequest) {
         val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
         val client = OkHttpClient.Builder().addInterceptor(logging).build()
@@ -231,4 +269,85 @@ class CreateReservationActivity : AppCompatActivity() {
             }
         })
     }
+
+    //update reservation
+    private fun updateReservation(id: String, reservation: ReservationCreateRequest) {
+        val retrofit = getRetrofit()
+        val api = retrofit.create(ReservationApi::class.java)
+        api.updateReservation(id, reservation).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@CreateReservationActivity, "Reservation updated successfully", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this@CreateReservationActivity, "Error: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@CreateReservationActivity, "Network error", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun getRetrofit(): Retrofit {
+        val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+        val client = OkHttpClient.Builder().addInterceptor(logging).build()
+        return Retrofit.Builder()
+            .baseUrl("https://conor-truculent-rurally.ngrok-free.dev/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    //pop up with reservation details
+    @SuppressLint("SetTextI18n")
+    private fun showReservationPreviewDialog(reservation: ReservationCreateRequest) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_reservation_preview, null)
+
+        // Get references from layout
+        val tvSummary = dialogView.findViewById<android.widget.TextView>(R.id.tvReservationSummary)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.btnConfirm)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+
+        // Format and display the details
+        tvSummary.text = """
+        NIC: ${reservation.NIC}
+        Full Name: ${reservation.FullName}
+        Vehicle Number: ${reservation.VehicleNumber}
+        Station ID: ${reservation.StationId}
+        Station Name: ${reservation.StationName}
+        Slot Number: ${reservation.SlotNo}
+        Reservation Date: ${reservation.ReservationDate}
+        Start Time: ${reservation.StartTime}
+        End Time: ${reservation.EndTime}
+    """.trimIndent()
+
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnConfirm.setOnClickListener {
+            if (isOnline(this)) {
+                if (isUpdateMode && updateReservationId != null) {
+                    updateReservation(updateReservationId!!, reservation)
+                } else {
+                    createReservation(reservation)
+                }
+            } else {
+                saveOffline(reservation)
+                Toast.makeText(this, "Offline — Reservation saved locally", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
 }

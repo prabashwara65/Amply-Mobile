@@ -1,4 +1,4 @@
-package com.example.amply.UI.EVOperatorApp
+package com.example.amply.ui.EVOperatorApp
 
 import android.os.Bundle
 import android.widget.Button

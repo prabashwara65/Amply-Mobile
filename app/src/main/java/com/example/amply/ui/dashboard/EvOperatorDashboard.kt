@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.amply.R
-import com.example.amply.UI.EVOperatorApp.QRScannerActivity
+import com.example.amply.ui.EVOperatorApp.QRScannerActivity
 
 class EvOperatorDashboard : AppCompatActivity() {
 

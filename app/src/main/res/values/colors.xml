@@ -2,7 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    
+    <color name="stay_gray">#708090</color>
+    <color name="blue_gray">#7393B3</color>
+    <color name="blue_500"> #00008B</color>
+    <color name="red_500">#D2042D</color>
+
     <!-- QR Scanner Colors -->
     <color name="zxing_possible_result_points">#FF00FF00</color>
     <color name="zxing_result_view">#FF000000</color>

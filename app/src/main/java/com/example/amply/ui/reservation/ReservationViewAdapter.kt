@@ -3,14 +3,20 @@ package com.example.amply.ui.reservation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
 import com.example.amply.model.ReservationExtended
 
 class ReservationViewAdapter(
-    private var reservations: MutableList<ReservationExtended>,
-    private val onItemClick: (ReservationExtended) -> Unit
+    private var reservations: MutableList<ReservationListActivity.ReservationExtended>,
+    private val onItemClick: (ReservationListActivity.ReservationExtended) -> Unit,
+
+    //update
+    private val onUpdateClick : (ReservationListActivity.ReservationExtended) -> Unit,
+    //Delete
+    private val onDeleteClick: (ReservationListActivity.ReservationExtended) -> Unit
 ) : RecyclerView.Adapter<ReservationViewAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,6 +25,10 @@ class ReservationViewAdapter(
         val reservationDate: TextView = itemView.findViewById(R.id.reservationDate)
         val reservationTime: TextView = itemView.findViewById(R.id.reservationTime)
         val statusBadge: TextView = itemView.findViewById(R.id.statusBadge)
+        val btnUpdate: Button = itemView.findViewById(R.id.btnUpdate)
+        val btnDelete : Button = itemView.findViewById(R.id.btnDelete)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,11 +46,14 @@ class ReservationViewAdapter(
         holder.reservationDate.text = reservation.reservationDate
         holder.reservationTime.text = reservation.startTime
         holder.statusBadge.text = reservation.status.uppercase()
-        
+
         // Set click listener
         holder.itemView.setOnClickListener {
             onItemClick(reservation)
         }
+
+        holder.btnUpdate.setOnClickListener { onUpdateClick(reservation) }
+        holder.btnDelete.setOnClickListener { onDeleteClick(reservation) }
     }
 
     fun updateData(newData: List<ReservationExtended>) {
