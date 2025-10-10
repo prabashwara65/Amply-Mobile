@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.amply.model.ChargingStation
 import com.example.amply.model.Reservation
 
-//import com.example.amply.ui.reservation.ChargingStation
-//import com.example.amply.ui.reservation.Reservation
-
 class UserProfileDatabaseHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -160,115 +157,6 @@ class UserProfileDatabaseHelper(context: Context) :
             }
             db?.insert(TABLE_STATIONS, null, values)
         }
-    }
-
-    fun addReservation(userId: Int, stationId: Int, stationName: String, date: String, time: String, status: String): Boolean {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_RES_USER_ID, userId)
-            put(COLUMN_RES_STATION_ID, stationId)
-            put(COLUMN_RES_STATION_NAME, stationName)
-            put(COLUMN_RES_DATE, date)
-            put(COLUMN_RES_TIME, time)
-            put(COLUMN_RES_STATUS, status)
-            put(COLUMN_RES_CREATED_AT, System.currentTimeMillis().toString())
-        }
-        val result = db.insert(TABLE_RESERVATIONS, null, values)
-        db.close()
-        return result != -1L
-    }
-
-    fun getPendingReservations(userId: Int): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'pending' ORDER BY $COLUMN_RES_DATE ASC",
-            arrayOf(userId.toString())
-        )
-    }
-
-    fun getConfirmedReservations(userId: Int): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'confirmed' ORDER BY $COLUMN_RES_DATE ASC",
-            arrayOf(userId.toString())
-        )
-    }
-
-    fun getPendingReservationsCount(userId: Int): Int {
-        val db = this.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT COUNT(*) FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'pending'",
-            arrayOf(userId.toString())
-        )
-        var count = 0
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0)
-        }
-        cursor.close()
-        db.close()
-        return count
-    }
-
-    fun getConfirmedReservationsCount(userId: Int): Int {
-        val db = this.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT COUNT(*) FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = 'confirmed'",
-            arrayOf(userId.toString())
-        )
-        var count = 0
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0)
-        }
-        cursor.close()
-        db.close()
-        return count
-    }
-
-    fun updateReservationStatus(reservationId: Int, status: String): Boolean {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_RES_STATUS, status)
-        }
-        val result = db.update(TABLE_RESERVATIONS, values, "$COLUMN_RES_ID = ?", arrayOf(reservationId.toString()))
-        db.close()
-        return result > 0
-    }
-
-    fun deleteReservation(reservationId: Int): Boolean {
-        val db = this.writableDatabase
-        val result = db.delete(TABLE_RESERVATIONS, "$COLUMN_RES_ID = ?", arrayOf(reservationId.toString()))
-        db.close()
-        return result > 0
-    }
-
-    fun getAllChargingStations(): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_STATIONS WHERE $COLUMN_STATION_STATUS = 'active'",
-            null
-        )
-    }
-
-    fun getChargingStationById(stationId: Int): Cursor? {
-        val db = this.readableDatabase
-        return db.rawQuery(
-            "SELECT * FROM $TABLE_STATIONS WHERE $COLUMN_STATION_ID = ?",
-            arrayOf(stationId.toString())
-        )
-    }
-
-    fun getReservationsByStatus(userId: Int, status: String): List<Reservation> {
-        val reservations = mutableListOf<Reservation>()
-        val db = this.readableDatabase
-        val cursor = db.rawQuery(
-            "SELECT * FROM $TABLE_RESERVATIONS WHERE $COLUMN_RES_USER_ID = ? AND $COLUMN_RES_STATUS = ? ORDER BY $COLUMN_RES_DATE ASC",
-            arrayOf(userId.toString(), status)
-        )
-
-
-        cursor.close()
-        db.close()
-        return reservations
     }
 
     fun getAllChargingStationsList(): List<ChargingStation> {
