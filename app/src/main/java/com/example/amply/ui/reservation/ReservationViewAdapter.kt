@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.amply.R
-import com.example.amply.model.ReservationExtended
 
 class ReservationViewAdapter(
     private var reservations: MutableList<ReservationListActivity.ReservationExtended>,
@@ -56,7 +55,7 @@ class ReservationViewAdapter(
         holder.btnDelete.setOnClickListener { onDeleteClick(reservation) }
     }
 
-    fun updateData(newData: List<ReservationExtended>) {
+    fun updateData(newData: List<ReservationListActivity.ReservationExtended>) {
         reservations.clear()
         reservations.addAll(newData)
         notifyDataSetChanged()

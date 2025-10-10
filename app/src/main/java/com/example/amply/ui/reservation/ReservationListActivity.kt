@@ -88,8 +88,8 @@ class ReservationListActivity : AppCompatActivity() {
         @GET("api/v1/reservations")
         fun getReservations(): Call<List<ApiReservation>>
 
-       @DELETE("api/v1/reservations/{id}")
-       fun deleteReservation(@Path("id") id: String): Call<Void>
+        @DELETE("api/v1/reservations/{id}")
+        fun deleteReservation(@Path("id") id: String): Call<Void>
     }
 
     // -----------------------------
@@ -147,7 +147,7 @@ class ReservationListActivity : AppCompatActivity() {
         fetchReservationsFromApi()
     }
 
-     //Auto-refresh list when coming back from CreateReservationActivity
+    //Auto-refresh list when coming back from CreateReservationActivity
 
     override fun onResume() {
         super.onResume()
@@ -155,7 +155,7 @@ class ReservationListActivity : AppCompatActivity() {
     }
 
 
-   
+
     // API Fetch
 
     private fun fetchReservationsFromApi() {
