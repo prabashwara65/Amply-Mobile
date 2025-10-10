@@ -8,7 +8,7 @@
     <item
         android:id="@+id/nav_activity"
         android:icon="@drawable/ic_activity"
-        android:title="Activity" />
+        android:title="Reservation" />
 
     <item
         android:id="@+id/nav_saved"

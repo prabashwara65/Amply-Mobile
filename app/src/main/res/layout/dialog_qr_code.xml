@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/dialog_background"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan QR Code"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvDialogReservationCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RES-2024-001"
+        android:textColor="#9CA3AF"
+        android:textSize="14sp"
+        android:fontFamily="monospace"
+        android:layout_marginBottom="20dp" />
+
+    <ImageView
+        android:id="@+id/ivDialogQrCode"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="Enlarged QR Code"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginBottom="20dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1A1A1A"
+        app:strokeColor="#3A3A3A"
+        app:strokeWidth="1dp"
+        app:cornerRadius="8dp"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="12dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+</LinearLayout>
